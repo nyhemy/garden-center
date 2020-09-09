@@ -3,7 +3,9 @@ package io.catalyte.training.entities;
 import static io.catalyte.training.constants.StringConstants.INVALID_EMAIL;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -119,4 +121,37 @@ public class User {
         ", password='" + password + '\'' +
         '}';
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(getId(), user.getId()) &&
+        Objects.equals(getName(), user.getName()) &&
+        Objects.equals(getTitle(), user.getTitle()) &&
+        Objects.equals(getRoles(), user.getRoles()) &&
+        Objects.equals(getEmail(), user.getEmail()) &&
+        Objects.equals(getPassword(), user.getPassword());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId(), getName(), getTitle(), getRoles(), getEmail(), getPassword());
+  }
+
+  @JsonIgnore
+  public boolean isEmpty(){
+    return Objects.isNull(id) &&
+        Objects.isNull(name) &&
+        Objects.isNull(title) &&
+        Objects.isNull(roles) &&
+        Objects.isNull(email) &&
+        Objects.isNull(password);
+  }
+
 }
