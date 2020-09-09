@@ -5,6 +5,7 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -117,7 +118,7 @@ public class User {
         "id=" + id +
         ", name='" + name + '\'' +
         ", title='" + title + '\'' +
-        ", roles=" + roles +
+        ", roles=" + Arrays.toString(roles) +
         ", email='" + email + '\'' +
         ", password='" + password + '\'' +
         '}';
@@ -135,7 +136,7 @@ public class User {
     return Objects.equals(getId(), user.getId()) &&
         Objects.equals(getName(), user.getName()) &&
         Objects.equals(getTitle(), user.getTitle()) &&
-        Objects.equals(getRoles(), user.getRoles()) &&
+        Arrays.equals(getRoles(), user.getRoles()) &&
         Objects.equals(getEmail(), user.getEmail()) &&
         Objects.equals(getPassword(), user.getPassword());
   }
