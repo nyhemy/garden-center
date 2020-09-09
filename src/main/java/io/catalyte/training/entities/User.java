@@ -31,14 +31,13 @@ public class User {
   private String title;
 
   @NotEmpty(message = "roles" + REQUIRED_FIELD)
-  private ArrayList<String> roles;
+  private String[] roles;
 
   @NotBlank(message = "email" + REQUIRED_FIELD)
   @Email(message = "email" + INVALID_EMAIL)
   private String email;
 
   @NotBlank(message = "password" + REQUIRED_FIELD)
-  @Min(value = 8, message = "password should be at least 8 characters long")
   private String password;
 
   public User() {
@@ -49,12 +48,12 @@ public class User {
       @NotBlank(message = "title"
           + REQUIRED_FIELD) String title,
       @NotEmpty(message = "roles"
-          + REQUIRED_FIELD) ArrayList<String> roles,
+          + REQUIRED_FIELD) String[] roles,
       @NotBlank(message = "email"
           + REQUIRED_FIELD) @Email(message = "email"
           + INVALID_EMAIL) String email,
       @NotBlank(message = "password"
-          + REQUIRED_FIELD) @Min(value = 8, message = "password should be at least 8 characters long") String password) {
+          + REQUIRED_FIELD) String password) {
     this.name = name;
     this.title = title;
     this.roles = roles;
@@ -86,11 +85,11 @@ public class User {
     this.title = title;
   }
 
-  public ArrayList<String> getRoles() {
+  public String[] getRoles() {
     return roles;
   }
 
-  public void setRoles(ArrayList<String> roles) {
+  public void setRoles(String[] roles) {
     this.roles = roles;
   }
 
