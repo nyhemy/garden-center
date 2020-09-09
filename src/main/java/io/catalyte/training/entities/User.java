@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Tables")
@@ -38,6 +39,7 @@ public class User {
   private String email;
 
   @NotBlank(message = "password" + REQUIRED_FIELD)
+  @Size(min = 8, message = "Password must be at least 8 characters long")
   private String password;
 
   public User() {
@@ -53,7 +55,7 @@ public class User {
           + REQUIRED_FIELD) @Email(message = "email"
           + INVALID_EMAIL) String email,
       @NotBlank(message = "password"
-          + REQUIRED_FIELD) String password) {
+          + REQUIRED_FIELD) @Size(min = 8, message = "Password must be at least 8 characters long") String password) {
     this.name = name;
     this.title = title;
     this.roles = roles;
