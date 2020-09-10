@@ -2,6 +2,8 @@ package io.catalyte.training.services;
 
 import io.catalyte.training.entities.Customer;
 import io.catalyte.training.entities.User;
+import io.catalyte.training.exceptions.BadDataResponse;
+import io.catalyte.training.exceptions.Conflict;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.CustomerRepository;
@@ -47,5 +49,60 @@ public class CustomerServiceImpl implements CustomerService{
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
+  }
+
+  @Override
+  public Customer addCustomer(Customer customer) {
+    for (Customer customerEmailCheck : customerRepository.findAll()) {
+      if (customerEmailCheck.getEmail().equals(customer.getEmail())) {
+
+        throw new Conflict("Email is already taken by another user");
+      }
+    }
+    try {
+      return customerRepository.save(customer);
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+  }
+
+  @Override
+  public Customer updateCustomerById(Long id, Customer customer) {
+    if (!customer.getId().equals(id)) {
+      throw new BadDataResponse("Customer ID must match the ID specified in the URL");
+    }
+
+    for (Customer customerEmailCheck : customerRepository.findAll()) {
+
+      if (!customerEmailCheck.getId().equals(id) && customerEmailCheck.getEmail().equals(customer.getEmail())) {
+
+        throw new Conflict("Email is already taken by another customer");
+      }
+    }
+
+    try {
+      Customer customerFromDb = customerRepository.findById(id).orElse(null);
+
+      if (customerFromDb != null) {
+        return customerRepository.save(customer);
+      }
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+
+    throw new ResourceNotFound("Could not locate a customer with the id: " + id);  }
+
+  @Override
+  public void deleteCustomerById(Long id) {
+    try {
+      if (customerRepository.existsById(id)) {
+        customerRepository.deleteById(id);
+        return;
+      }
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+
+    throw new ResourceNotFound("Could not locate a customer with the id: " + id);
   }
 }
