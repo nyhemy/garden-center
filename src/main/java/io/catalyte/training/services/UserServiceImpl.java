@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService {
   @Override
   public User addUser(User user) {
     for (User userEmailCheck : userRepository.findAll()) {
-
       if (userEmailCheck.getEmail().equals(user.getEmail())) {
 
         throw new Conflict("Email is already taken by another user");
@@ -79,6 +78,14 @@ public class UserServiceImpl implements UserService {
   public User updateUserById(Long id, User user) {
     if (!user.getId().equals(id)) {
       throw new BadDataResponse("User ID must match the ID specified in the URL");
+    }
+
+    for (User userEmailCheck : userRepository.findAll()) {
+
+      if (!userEmailCheck.getId().equals(id) && userEmailCheck.getEmail().equals(user.getEmail())) {
+
+        throw new Conflict("Email is already taken by another user");
+      }
     }
 
     try {
