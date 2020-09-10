@@ -11,5 +11,6 @@ public class StringConstants {
   public static final String INVALID_POSITIVE = "A positive value is required for this field";
   public static final String ID_NOT_FOUND =  "You attempted an operation on an id that does not exist in the database";
   public static final String INVALID_EMAIL = " should be a valid email address";
+  public static final String INPUT_CONFLICT = "Input is conflicting with already existing data";
 
 }

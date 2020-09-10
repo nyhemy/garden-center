@@ -1,16 +1,24 @@
 package io.catalyte.training.services;
 
+import static io.catalyte.training.constants.StringConstants.INPUT_CONFLICT;
+import static io.catalyte.training.constants.StringConstants.NOT_FOUND;
+
 import io.catalyte.training.entities.User;
 import io.catalyte.training.exceptions.BadDataResponse;
+import io.catalyte.training.exceptions.Conflict;
+import io.catalyte.training.exceptions.ExceptionResponse;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.UserRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +62,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User addUser(User user) {
+    for (User userEmailCheck : userRepository.findAll()) {
+
+      if (userEmailCheck.getEmail().equals(user.getEmail())) {
+
+        throw new Conflict("Email is already taken by another user");
+      }
+    }
     try {
       return userRepository.save(user);
     } catch (Exception e) {

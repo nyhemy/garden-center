@@ -119,6 +119,20 @@ public class ExceptionController {
 
   }
 
+  /**
+   *
+   * @param exception - The Conflict exception containing the custom message.
+   * @return the ResponseEntity containing the custom exception and the status code 409
+   */
+  @ExceptionHandler(Conflict.class)
+  protected ResponseEntity<ExceptionResponse> conflict(Conflict exception) {
+
+    ExceptionResponse response =
+        new ExceptionResponse(INPUT_CONFLICT, new Date(), exception.getMessage());
+
+    return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+  }
+
 
 }
 
