@@ -1,15 +1,14 @@
 package io.catalyte.training.services;
 
 import io.catalyte.training.entities.Customer;
-import io.catalyte.training.entities.User;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.Conflict;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.CustomerRepository;
-import io.catalyte.training.repositories.UserRepository;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
       "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
       "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
       "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
+
+  String zipCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
+  Pattern zipCodePattern = Pattern.compile(zipCodeRegex);
 
   @Override
   public Customer getCustomerById(Long id) {
@@ -60,6 +62,12 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public Customer addCustomer(Customer customer) {
 
+    Matcher matcher = zipCodePattern.matcher(customer.getAddress().getZipCode());
+
+    if (!matcher.matches()) {
+      throw new BadDataResponse("Invalid zipcode");
+    }
+
     for (String state : stateAbbrevs) {
       if (customer.getAddress().getState().equals(state)) {
 
@@ -83,6 +91,13 @@ public class CustomerServiceImpl implements CustomerService {
     if (!customer.getId().equals(id)) {
       throw new BadDataResponse("Customer ID must match the ID specified in the URL");
     }
+
+    Matcher matcher = zipCodePattern.matcher(customer.getAddress().getZipCode());
+
+    if (!matcher.matches()) {
+      throw new BadDataResponse("Invalid zipcode");
+    }
+
     for (String state : stateAbbrevs) {
       if (customer.getAddress().getState().equals(state)) {
 
