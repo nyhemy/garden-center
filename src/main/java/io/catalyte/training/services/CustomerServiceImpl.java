@@ -1,5 +1,51 @@
 package io.catalyte.training.services;
 
-public class CustomerServiceImpl {
+import io.catalyte.training.entities.Customer;
+import io.catalyte.training.entities.User;
+import io.catalyte.training.exceptions.ResourceNotFound;
+import io.catalyte.training.exceptions.ServiceUnavailable;
+import io.catalyte.training.repositories.CustomerRepository;
+import io.catalyte.training.repositories.UserRepository;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
+@Service
+public class CustomerServiceImpl implements CustomerService{
+
+  private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+  @Autowired
+  private CustomerRepository customerRepository;
+
+  @Override
+  public Customer getCustomerById(Long id) {
+    try {
+      Customer customerLookupResult = customerRepository.findById(id).orElse(null);
+      if (customerLookupResult != null) {
+        return customerLookupResult;
+      }
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+
+    throw new ResourceNotFound("Could not locate a customer with the id: " + id);
+  }
+
+  @Override
+  public List<Customer> queryCustomers(Customer customer) {
+    try {
+      if (customer.isEmpty()) {
+        return customerRepository.findAll();
+      } else {
+        Example<Customer> customerExample = Example.of(customer);
+        return customerRepository.findAll(customerExample);
+      }
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+  }
 }

@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
 
     throw new ResourceNotFound("Could not locate a user with the id: " + id);
 
-
   }
 
   @Override
@@ -51,8 +50,8 @@ public class UserServiceImpl implements UserService {
       if (user.isEmpty()) {
         return userRepository.findAll();
       } else {
-        Example<User> vehicleExample = Example.of(user);
-        return userRepository.findAll(vehicleExample);
+        Example<User> userExample = Example.of(user);
+        return userRepository.findAll(userExample);
       }
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
