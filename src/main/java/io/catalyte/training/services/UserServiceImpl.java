@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
       throw new ServiceUnavailable(e);
     }
 
-    // if we made it down to this pint, we did not find the review
     throw new ResourceNotFound("Could not locate a user with the id: " + id);
 
 
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User updateUserById(Long id, User user) {
     if (!user.getId().equals(id)) {
-      throw new BadDataResponse("Vehicle ID must match the ID specified in the URL");
+      throw new BadDataResponse("User ID must match the ID specified in the URL");
     }
 
     try {
@@ -92,8 +91,7 @@ public class UserServiceImpl implements UserService {
       throw new ServiceUnavailable(e);
     }
 
-    // if we made it down to this pint, we did not find the vehicle
-    throw new ResourceNotFound("Could not locate a vehicle with the id: " + id);
+    throw new ResourceNotFound("Could not locate a user with the id: " + id);
   }
 
   @Override
@@ -107,7 +105,6 @@ public class UserServiceImpl implements UserService {
       throw new ServiceUnavailable(e);
     }
 
-    // if we made it down to this pint, we did not find the vehicle
-    throw new ResourceNotFound("Could not locate a vehicle with the id: " + id);
+    throw new ResourceNotFound("Could not locate a user with the id: " + id);
   }
 }
