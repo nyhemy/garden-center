@@ -8,6 +8,7 @@ import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.CustomerRepository;
 import io.catalyte.training.repositories.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,17 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
   private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Autowired
   private CustomerRepository customerRepository;
+
+  String[] stateAbbrevs = {"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
+      "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
+      "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+      "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
 
   @Override
   public Customer getCustomerById(Long id) {
@@ -53,17 +59,23 @@ public class CustomerServiceImpl implements CustomerService{
 
   @Override
   public Customer addCustomer(Customer customer) {
-    for (Customer customerEmailCheck : customerRepository.findAll()) {
-      if (customerEmailCheck.getEmail().equals(customer.getEmail())) {
 
-        throw new Conflict("Email is already taken by another user");
+    for (String state : stateAbbrevs) {
+      if (customer.getAddress().getState().equals(state)) {
+
+        for (Customer customerEmailCheck : customerRepository.findAll()) {
+          if (customerEmailCheck.getEmail().equals(customer.getEmail())) {
+            throw new Conflict("Email is already taken by another user");
+          }
+        }
+        try {
+          return customerRepository.save(customer);
+        } catch (Exception e) {
+          throw new ServiceUnavailable(e);
+        }
       }
     }
-    try {
-      return customerRepository.save(customer);
-    } catch (Exception e) {
-      throw new ServiceUnavailable(e);
-    }
+    throw new BadDataResponse("Invalid state");
   }
 
   @Override
@@ -71,26 +83,32 @@ public class CustomerServiceImpl implements CustomerService{
     if (!customer.getId().equals(id)) {
       throw new BadDataResponse("Customer ID must match the ID specified in the URL");
     }
+    for (String state : stateAbbrevs) {
+      if (customer.getAddress().getState().equals(state)) {
 
-    for (Customer customerEmailCheck : customerRepository.findAll()) {
+        for (Customer customerEmailCheck : customerRepository.findAll()) {
 
-      if (!customerEmailCheck.getId().equals(id) && customerEmailCheck.getEmail().equals(customer.getEmail())) {
+          if (!customerEmailCheck.getId().equals(id) && customerEmailCheck.getEmail()
+              .equals(customer.getEmail())) {
+            throw new Conflict("Email is already taken by another customer");
+          }
+        }
 
-        throw new Conflict("Email is already taken by another customer");
+        try {
+          Customer customerFromDb = customerRepository.findById(id).orElse(null);
+
+          if (customerFromDb != null) {
+            return customerRepository.save(customer);
+          }
+        } catch (Exception e) {
+          throw new ServiceUnavailable(e);
+        }
+
+        throw new ResourceNotFound("Could not locate a customer with the id: " + id);
       }
     }
-
-    try {
-      Customer customerFromDb = customerRepository.findById(id).orElse(null);
-
-      if (customerFromDb != null) {
-        return customerRepository.save(customer);
-      }
-    } catch (Exception e) {
-      throw new ServiceUnavailable(e);
-    }
-
-    throw new ResourceNotFound("Could not locate a customer with the id: " + id);  }
+    throw new BadDataResponse("Invalid state");
+  }
 
   @Override
   public void deleteCustomerById(Long id) {
