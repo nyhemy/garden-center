@@ -1,6 +1,7 @@
 package io.catalyte.training.controllers;
 
 
+import io.catalyte.training.entities.Address;
 import io.catalyte.training.entities.Customer;
 import io.catalyte.training.entities.User;
 import io.catalyte.training.services.CustomerService;
@@ -44,6 +45,13 @@ public class CustomerController {
     logger.info(new Date() + " Query request received: " + customer.toString());
 
     return new ResponseEntity<>(customerService.queryCustomers(customer), HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/address")
+  public ResponseEntity<List<Customer>> getCustomerByAddress(Address address) {
+    logger.info(new Date() + " Query request received: " + address.toString());
+
+    return new ResponseEntity<>(customerService.queryCustomersByAddress(address), HttpStatus.OK);
   }
 
   @PostMapping

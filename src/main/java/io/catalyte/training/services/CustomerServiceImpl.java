@@ -1,11 +1,14 @@
 package io.catalyte.training.services;
 
+import io.catalyte.training.entities.Address;
 import io.catalyte.training.entities.Customer;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.Conflict;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
+import io.catalyte.training.repositories.AddressRepository;
 import io.catalyte.training.repositories.CustomerRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +25,8 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
+  @Autowired
+  private AddressRepository addressRepository;
 
   String[] stateAbbrevs = {"AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID",
       "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
@@ -45,6 +50,10 @@ public class CustomerServiceImpl implements CustomerService {
     throw new ResourceNotFound("Could not locate a customer with the id: " + id);
   }
 
+  /*
+  Note: One can still query Customer via Address using queryCustomer, the url would look like:
+  "http://localhost:8080/customers?address.city=San Jose". However, this is considered bad practice.
+  */
   @Override
   public List<Customer> queryCustomers(Customer customer) {
     try {
@@ -53,6 +62,39 @@ public class CustomerServiceImpl implements CustomerService {
       } else {
         Example<Customer> customerExample = Example.of(customer);
         return customerRepository.findAll(customerExample);
+      }
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }
+  }
+
+  @Override
+  public List<Customer> queryCustomersByAddress(Address address) {
+    // takes in an address field
+    // returns an answer based on that field
+    List<Customer> allCustomers = customerRepository.findAll();
+
+    try {
+      if (address.isEmpty()) {
+        return allCustomers;
+
+      } else {
+        Example<Address> addressExample = Example.of(address);
+
+        List<Address> addressList = addressRepository.findAll(addressExample);
+        List<Customer> customerList = new ArrayList<>();
+
+        for (Customer customer : allCustomers) {
+
+          for (Address a : addressList) {
+
+            if (customer.getAddress() == a){
+              customerList.add(customer);
+            }
+          }
+        }
+
+        return customerList;
       }
     } catch (Exception e) {
       throw new ServiceUnavailable(e);

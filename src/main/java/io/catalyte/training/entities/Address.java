@@ -29,11 +29,9 @@ public class Address {
   @NotBlank(message = "city" + REQUIRED_FIELD)
   private String city;
 
-  // validate with list of state abrev
   @NotBlank(message = "state" + REQUIRED_FIELD)
   private String state;
 
-  //use regex
   @NotBlank(message = "zipcode" + REQUIRED_FIELD)
   private String zipCode;
 
@@ -123,5 +121,14 @@ public class Address {
   @Override
   public int hashCode() {
     return Objects.hash(getId(), getStreet(), getCity(), getState(), getZipCode());
+  }
+
+  @JsonIgnore
+  public boolean isEmpty() {
+    return Objects.isNull(id) &&
+        Objects.isNull(street) &&
+        Objects.isNull(city) &&
+        Objects.isNull(state) &&
+        Objects.isNull(zipCode);
   }
 }

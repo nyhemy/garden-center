@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +38,7 @@ public class Product {
   private String manufacturer;
 
   @NotNull(message = "price" + REQUIRED_FIELD)
+  @Digits(integer = 999999999, fraction = 2)
   private BigDecimal price;
 
   public Product() {

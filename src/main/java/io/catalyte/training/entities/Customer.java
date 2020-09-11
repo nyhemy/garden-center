@@ -5,12 +5,16 @@ import static io.catalyte.training.constants.StringConstants.INVALID_EMAIL;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -36,6 +40,10 @@ public class Customer {
   @OneToOne
   @NotNull(message = "address" + REQUIRED_FIELD)
   private Address address;
+
+//  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+//  @JsonIgnore
+//  private Set<Order> orders = new HashSet<>();
 
   public Customer() {
   }
