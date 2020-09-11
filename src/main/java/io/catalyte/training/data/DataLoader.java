@@ -2,10 +2,13 @@ package io.catalyte.training.data;
 
 import io.catalyte.training.entities.Address;
 import io.catalyte.training.entities.Customer;
+import io.catalyte.training.entities.Product;
 import io.catalyte.training.entities.User;
 import io.catalyte.training.repositories.AddressRepository;
 import io.catalyte.training.repositories.CustomerRepository;
+import io.catalyte.training.repositories.ProductRepository;
 import io.catalyte.training.repositories.UserRepository;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.slf4j.Logger;
@@ -25,6 +28,8 @@ public class DataLoader implements CommandLineRunner {
   private CustomerRepository customerRepository;
   @Autowired
   private AddressRepository addressRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
   private User user1;
   private User user2;
@@ -38,6 +43,10 @@ public class DataLoader implements CommandLineRunner {
   private Customer customer2;
   private Customer customer3;
 
+  private Product product1;
+  private Product product2;
+  private Product product3;
+
   @Override
   public void run(String... args) throws Exception {
     logger.info("Loading data...");
@@ -45,14 +54,17 @@ public class DataLoader implements CommandLineRunner {
     loadUsers();
     loadAddresses();
     loadCustomers();
+    loadProducts();
   }
 
   private void loadUsers() {
     user1 = userRepository.save(
-        new User("John Smith", "Smithy in Chief", new String[]{"Supervisor", "Smithy"}, "jsmith@gmail.com",
+        new User("John Smith", "Smithy in Chief", new String[]{"Supervisor", "Smithy"},
+            "jsmith@gmail.com",
             "mcclangers"));
     user2 = userRepository.save(
-        new User("Jinky Jane", "Miner in Chief", new String[]{"Supervisor", "Miner"}, "jjane@gmail.com",
+        new User("Jinky Jane", "Miner in Chief", new String[]{"Supervisor", "Miner"},
+            "jjane@gmail.com",
             "saltycookies"));
     user3 = userRepository.save(
         new User("Fredo Mann", "Miner", new String[]{"Miner"}, "fmann@gmail.com",
@@ -69,5 +81,21 @@ public class DataLoader implements CommandLineRunner {
     customer1 = customerRepository.save(new Customer("Jacob Keyes", "jkeyes@gmail.com", address1));
     customer2 = customerRepository.save(new Customer("Super Bee", "sbee@gmail.com", address2));
     customer3 = customerRepository.save(new Customer("Cest Tous", "ctous@gmail.com", address3));
+  }
+
+  private void loadProducts() {
+    product1 = productRepository.save(new Product("TTNM-00004-ORE", "Ore", "Titanium Ore Grade 04",
+        "Grade 04 raw titanium ore, primarily used high stress environments.", "Charon Industries",
+        BigDecimal.valueOf(30.00)));
+    product2 = productRepository
+        .save(new Product("TTNM-00023-ALY", "Alloy", "Titanium Alloy Grade 23",
+            "Grade 23 titanium alloy, superior choice for various rugged fabrications.",
+            "Charon Industries",
+            BigDecimal.valueOf(50.00)));
+    product3 = productRepository
+        .save(new Product("TTNM-6Al6V-ALY", "Alloy", "Titanium Alloy Grade 6Al-6V-2Sn",
+            "Grade 6Al-6V-2Sn titanium alloy, maintains its stability and strength in environments with temps up to 550°C.",
+            "Charon Labs",
+            BigDecimal.valueOf(30.00)));
   }
 }

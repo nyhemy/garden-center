@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     }
 
     throw new ResourceNotFound("Could not locate a user with the id: " + id);
-
   }
 
   @Override
