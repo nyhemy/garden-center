@@ -32,8 +32,8 @@ public class Item {
   Integer quantity;
 
   @ManyToOne
-  @JoinColumn(name="order_id", nullable=false)
-  @NotNull (message = "order" + REQUIRED_FIELD)
+  @JoinColumn(name="order_id")
+  @JsonIgnore
   private Order order;
 
   public Item() {

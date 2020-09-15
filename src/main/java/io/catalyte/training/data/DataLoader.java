@@ -8,6 +8,7 @@ import io.catalyte.training.entities.Product;
 import io.catalyte.training.entities.User;
 import io.catalyte.training.repositories.AddressRepository;
 import io.catalyte.training.repositories.CustomerRepository;
+import io.catalyte.training.repositories.ItemRepository;
 import io.catalyte.training.repositories.OrderRepository;
 import io.catalyte.training.repositories.ProductRepository;
 import io.catalyte.training.repositories.UserRepository;
@@ -15,6 +16,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,6 +37,7 @@ public class DataLoader implements CommandLineRunner {
   @Autowired private AddressRepository addressRepository;
   @Autowired private ProductRepository productRepository;
   @Autowired private OrderRepository orderRepository;
+  @Autowired private ItemRepository itemRepository;
 
   private User user1;
   private User user2;
@@ -124,15 +128,10 @@ public class DataLoader implements CommandLineRunner {
   }
 
   private void loadItems() {
-    item1 = new Item(product1, 1);
-    item2 = new Item(product2, 3);
-    item3 = new Item(product3, 2);
-    item4 = new Item(product3, 4);
-
-    item1.setId(1L);
-    item2.setId(2L);
-    item3.setId(3L);
-    item4.setId(4L);
+    item1 = itemRepository.save(new Item(product1, 1));
+    item2 = itemRepository.save(new Item(product2, 3));
+    item3 = itemRepository.save(new Item(product3, 2));
+    item4 = itemRepository.save(new Item(product3, 4));
 
     Collections.addAll(items1, item1, item2);
     Collections.addAll(items2, item3);
@@ -140,10 +139,17 @@ public class DataLoader implements CommandLineRunner {
   }
 
   private void loadOrders() {
-    order1 = orderRepository.save(new Order(Date.from(Instant.parse("2020-06-22")), items1, BigDecimal.valueOf(10.00), customer1));
-    order2 = orderRepository.save(new Order(Date.from(Instant.parse("2020-08-12")), items1, BigDecimal.valueOf(10.00), customer2));
-    order3 = orderRepository.save(new Order(Date.from(Instant.parse("2020-11-03")), items1, BigDecimal.valueOf(10.00), customer3));
-    order4 = orderRepository.save(new Order(Date.from(Instant.parse("2020-12-23")), items1, BigDecimal.valueOf(10.00), customer3));
+    order1 = orderRepository.save(new Order(LocalDate.parse("2010-03-17"), items1, BigDecimal.valueOf(10.00), customer1));
+    order2 = orderRepository.save(new Order(LocalDate.parse("2020-08-12"), items2, BigDecimal.valueOf(10.00), customer2));
+    order3 = orderRepository.save(new Order(LocalDate.parse("2020-11-03"), items3, BigDecimal.valueOf(10.00), customer3));
+    order4 = orderRepository.save(new Order(LocalDate.parse("2020-12-23"), items1, BigDecimal.valueOf(10.00), customer3));
+
+//    order1.setDate();
+//    order1.setItems();
+//    order1.setOrderTotal();
+//    order1.setCustomerId();
+//
+//    orderRepository.save(order1);
 
     Collections.addAll(orders1, order1, order2);
     Collections.addAll(orders2, order3);

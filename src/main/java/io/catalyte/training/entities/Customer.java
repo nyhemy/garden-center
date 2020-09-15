@@ -45,7 +45,8 @@ public class Customer {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "customer_id", referencedColumnName = "id")
-  private Set<Order> orders;
+  @JsonIgnore
+  private Set<Order> orders = new HashSet<>();
 
   public Customer() {
   }

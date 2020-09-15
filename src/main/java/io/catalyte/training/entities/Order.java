@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -32,11 +33,11 @@ public class Order {
 
   @NotNull(message = "date" + REQUIRED_FIELD)
   @JsonFormat(pattern = "yyyy-MM-dd")
-  private Date date;
+  private LocalDate date;
 
   @OneToMany(mappedBy = "order")
-  @NotEmpty(message = "order_items" + REQUIRED_FIELD)
-  private Set<Item> items;
+//  @NotEmpty(message = "order_items" + REQUIRED_FIELD)
+  private Set<Item> items = new HashSet<>();
 
   @NotNull(message = "orderTotal" + REQUIRED_FIELD)
   @Digits(integer = 999999999, fraction = 2)
@@ -49,8 +50,8 @@ public class Order {
   public Order() {
   }
 
-  public Order(
-      @NotNull(message = "date" + REQUIRED_FIELD) Date date,
+  public Order(@NotNull(message = "date"
+      + REQUIRED_FIELD) LocalDate date,
       @NotEmpty(message = "order_items"
           + REQUIRED_FIELD) Set<Item> items,
       @NotNull(message = "orderTotal"
@@ -81,11 +82,11 @@ public class Order {
     this.id = id;
   }
 
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 

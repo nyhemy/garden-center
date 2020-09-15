@@ -52,7 +52,7 @@ public class UserControllerTest {
   @Test
   public void test1_getUser() throws Exception{
     mockMvc
-        .perform(get("/" + "users".toLowerCase() + "s/1"))
+        .perform(get("/" + "users/1"))
         .andExpect(jsonPath("$.name", is("John Smith")))
         .andExpect(okStatus)
         .andExpect(expectedType);
@@ -61,7 +61,7 @@ public class UserControllerTest {
   @Test
   public void test2_queryUsers() throws Exception{
     mockMvc
-        .perform(get("/" + "users".toLowerCase()))
+        .perform(get("/" + "users"))
         .andExpect(jsonPath("$", hasSize(3)))
         .andExpect(okStatus)
         .andExpect(expectedType);
@@ -72,10 +72,10 @@ public class UserControllerTest {
     String json = "{\"id\":4,\"name\":\"Sum Bodey\",\"title\":\"Miner\",\"roles\":\"Miner\",\"email\":sbodey@gmail.com}";
 
     this.mockMvc
-        .perform(post("/" + "users".toLowerCase())
+        .perform(post("/" + "users")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
-        .andExpect(jsonPath("$.id", is(1)))
+        .andExpect(jsonPath("$.id", is(4)))
         .andExpect(createdStatus)
         .andExpect(expectedType);
   }
@@ -86,7 +86,7 @@ public class UserControllerTest {
 
     this.mockMvc
 
-        .perform(put("/" + "users".toLowerCase() + "s/1")
+        .perform(put("/" + "users/1")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
         .andExpect(jsonPath("$.name", is("Johnny Smith")))
@@ -97,7 +97,7 @@ public class UserControllerTest {
   @Test
   public void test5_deleteUserById() throws Exception{
     mockMvc
-        .perform(delete("/" + "users".toLowerCase() + "s/3"))
+        .perform(delete("/" + "users/3"))
         .andExpect(deletedStatus);
   }
 }
