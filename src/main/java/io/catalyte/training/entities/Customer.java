@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -41,10 +42,6 @@ public class Customer {
   @NotNull(message = "address" + REQUIRED_FIELD)
   private Address address;
 
-//  @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-//  @JsonIgnore
-//  private Set<Order> orders = new HashSet<>();
-
   public Customer() {
   }
 
@@ -58,6 +55,16 @@ public class Customer {
     this.name = name;
     this.email = email;
     this.address = address;
+  }
+
+  @Override
+  public String toString() {
+    return "Customer{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", email='" + email + '\'' +
+        ", address=" + address +
+        '}';
   }
 
   public Long getId() {
@@ -93,16 +100,6 @@ public class Customer {
   }
 
   @Override
-  public String toString() {
-    return "Customer{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", email='" + email + '\'' +
-        ", address=" + address +
-        '}';
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -111,10 +108,10 @@ public class Customer {
       return false;
     }
     Customer customer = (Customer) o;
-    return Objects.equals(getId(), customer.getId()) &&
-        Objects.equals(getName(), customer.getName()) &&
-        Objects.equals(getEmail(), customer.getEmail()) &&
-        Objects.equals(getAddress(), customer.getAddress());
+    return getId().equals(customer.getId()) &&
+        getName().equals(customer.getName()) &&
+        getEmail().equals(customer.getEmail()) &&
+        getAddress().equals(customer.getAddress());
   }
 
   @Override
