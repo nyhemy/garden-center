@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -42,6 +43,10 @@ public class Customer {
   @NotNull(message = "address" + REQUIRED_FIELD)
   private Address address;
 
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "customer_id", referencedColumnName = "id")
+  private Set<Order> orders;
+
   public Customer() {
   }
 
@@ -64,6 +69,7 @@ public class Customer {
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", address=" + address +
+        ", orders=" + orders +
         '}';
   }
 
@@ -99,6 +105,14 @@ public class Customer {
     this.address = address;
   }
 
+  public Set<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(Set<Order> orders) {
+    this.orders = orders;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -111,12 +125,13 @@ public class Customer {
     return getId().equals(customer.getId()) &&
         getName().equals(customer.getName()) &&
         getEmail().equals(customer.getEmail()) &&
-        getAddress().equals(customer.getAddress());
+        getAddress().equals(customer.getAddress()) &&
+        getOrders().equals(customer.getOrders());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getEmail(), getAddress());
+    return Objects.hash(getId(), getName(), getEmail(), getAddress(), getOrders());
   }
 
   @JsonIgnore
@@ -124,6 +139,7 @@ public class Customer {
     return Objects.isNull(id) &&
         Objects.isNull(name) &&
         Objects.isNull(email) &&
-        Objects.isNull(address);
+        Objects.isNull(address) &&
+        Objects.isNull(orders);
   }
 }

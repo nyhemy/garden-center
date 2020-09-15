@@ -4,23 +4,20 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "items")
-public class Items {
+public class Item {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,18 +36,15 @@ public class Items {
   @NotNull (message = "order" + REQUIRED_FIELD)
   private Order order;
 
-  public Items() {
+  public Item() {
   }
 
-  public Items(@NotNull(message = "product"
+  public Item(@NotNull(message = "product"
       + REQUIRED_FIELD) Product product,
       @NotNull(message = "quantity"
-          + REQUIRED_FIELD) @Min(value = 0) Integer quantity,
-      @NotNull(message = "order"
-          + REQUIRED_FIELD) Order order) {
+          + REQUIRED_FIELD) @Min(value = 0) Integer quantity) {
     this.product = product;
     this.quantity = quantity;
-    this.order = order;
   }
 
   @Override
@@ -103,11 +97,11 @@ public class Items {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Items items = (Items) o;
-    return getId().equals(items.getId()) &&
-        getProduct().equals(items.getProduct()) &&
-        getQuantity().equals(items.getQuantity()) &&
-        getOrder().equals(items.getOrder());
+    Item item = (Item) o;
+    return getId().equals(item.getId()) &&
+        getProduct().equals(item.getProduct()) &&
+        getQuantity().equals(item.getQuantity()) &&
+        getOrder().equals(item.getOrder());
   }
 
   @Override
