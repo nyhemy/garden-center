@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
     }
 
     for (User userEmailCheck : userRepository.findAll()) {
-
       if (!userEmailCheck.getId().equals(id) && userEmailCheck.getEmail().equals(user.getEmail())) {
 
         throw new Conflict("Email is already taken by another user");

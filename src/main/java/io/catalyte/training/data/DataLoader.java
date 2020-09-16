@@ -81,7 +81,7 @@ public class DataLoader implements CommandLineRunner {
     loadAddresses();
     loadProducts();
     loadCustomers();
-    loadItems();
+//    loadItems();
     loadOrders();
   }
 
@@ -127,7 +127,18 @@ public class DataLoader implements CommandLineRunner {
     customer3 = customerRepository.save(new Customer("Cest Tous", "ctous@gmail.com", address3));
   }
 
-  private void loadItems() {
+//  private void loadItems() {
+//    item1 = itemRepository.save(new Item(product1, 1));
+//    item2 = itemRepository.save(new Item(product2, 3));
+//    item3 = itemRepository.save(new Item(product3, 2));
+//    item4 = itemRepository.save(new Item(product3, 4));
+//
+//    Collections.addAll(items1, item1, item2);
+//    Collections.addAll(items2, item3);
+//    Collections.addAll(items3, item4);
+//  }
+
+  private void loadOrders() {
     item1 = itemRepository.save(new Item(product1, 1));
     item2 = itemRepository.save(new Item(product2, 3));
     item3 = itemRepository.save(new Item(product3, 2));
@@ -136,14 +147,37 @@ public class DataLoader implements CommandLineRunner {
     Collections.addAll(items1, item1, item2);
     Collections.addAll(items2, item3);
     Collections.addAll(items3, item4);
-  }
 
-  private void loadOrders() {
+//    itemRepository.save(item1);
+//    itemRepository.save(item2);
+//    itemRepository.save(item3);
+//    itemRepository.save(item4);
+
+    //v1
     order1 = orderRepository.save(new Order(LocalDate.parse("2010-03-17"), items1, BigDecimal.valueOf(10.00), customer1));
     order2 = orderRepository.save(new Order(LocalDate.parse("2020-08-12"), items2, BigDecimal.valueOf(10.00), customer2));
     order3 = orderRepository.save(new Order(LocalDate.parse("2020-11-03"), items3, BigDecimal.valueOf(10.00), customer3));
     order4 = orderRepository.save(new Order(LocalDate.parse("2020-12-23"), items1, BigDecimal.valueOf(10.00), customer3));
 
+    //v2
+//    order1 = new Order(LocalDate.parse("2010-03-17"), items1, BigDecimal.valueOf(10.00), customer1);
+//    order2 = new Order(LocalDate.parse("2020-08-12"), items2, BigDecimal.valueOf(10.00), customer2);
+//    order3 = new Order(LocalDate.parse("2020-11-03"), items3, BigDecimal.valueOf(10.00), customer3);
+//    order4 = new Order(LocalDate.parse("2020-12-23"), items1, BigDecimal.valueOf(10.00), customer3);
+//
+//    order1.setId(1L);
+//    order2.setId(2L);
+//    order3.setId(3L);
+//    order4.setId(4L);
+//
+//    /* before order.items field is filled
+//    then it's deleted when hitting the repo.save (gives "order.items is a required field" exception) */
+//    orderRepository.save(order1);
+//    orderRepository.save(order2);
+//    orderRepository.save(order3);
+//    orderRepository.save(order4);
+
+    //v3 non-working
 //    order1.setDate();
 //    order1.setItems();
 //    order1.setOrderTotal();
@@ -151,8 +185,8 @@ public class DataLoader implements CommandLineRunner {
 //
 //    orderRepository.save(order1);
 
-    Collections.addAll(orders1, order1, order2);
-    Collections.addAll(orders2, order3);
-    Collections.addAll(orders3, order4);
+//    Collections.addAll(orders1, order1, order2);
+//    Collections.addAll(orders2, order3);
+//    Collections.addAll(orders3, order4);
   }
 }

@@ -73,7 +73,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     for (Product productSkuCheck : productRepository.findAll()) {
-
       if (!productSkuCheck.getId().equals(id) && productSkuCheck.getSku()
           .equals(product.getSku())) {
 

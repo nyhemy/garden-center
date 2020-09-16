@@ -55,42 +55,42 @@ public class OrderServiceImpl implements OrderService {
     }
   }
 
-  @Override
-  public List<Order> queryOrdersByItem(Item item) {
-    // takes in an item field
-    // returns an answer based on that field
-    List<Order> allOrders = orderRepository.findAll();
-
-    try {
-      if (item.isEmpty()) {
-        return allOrders;
-
-      } else {
-        Example<Item> itemExample = Example.of(item);
-
-        List<Item> itemList = itemRepository.findAll(itemExample);
-        List<Order> orderList = new ArrayList<>();
-
-        for (Order order : allOrders) {
-
-          for (Item i : itemList) {
-
-            for (Item i2 : order.getItems()) {
-
-              if (i2 == i) {
-                orderList.add(order);
-              }
-            }
-          }
-        }
-
-
-        return orderList;
-      }
-    } catch (Exception e) {
-      throw new ServiceUnavailable(e);
-    }
-  }
+//  @Override
+//  public List<Order> queryOrdersByItem(Item item) {
+//    // takes in an item field
+//    // returns an answer based on that field
+//    List<Order> allOrders = orderRepository.findAll();
+//
+//    try {
+//      if (item.isEmpty()) {
+//        return allOrders;
+//
+//      } else {
+//        Example<Item> itemExample = Example.of(item);
+//
+//        List<Item> itemList = itemRepository.findAll(itemExample);
+//        List<Order> orderList = new ArrayList<>();
+//
+//        for (Order order : allOrders) {
+//
+//          for (Item i : itemList) {
+//
+//            for (Item i2 : order.getItems()) {
+//
+//              if (i2 == i) {
+//                orderList.add(order);
+//              }
+//            }
+//          }
+//        }
+//
+//
+//        return orderList;
+//      }
+//    } catch (Exception e) {
+//      throw new ServiceUnavailable(e);
+//    }
+//  }
 
   @Override
   public Order addOrder(Order order) {

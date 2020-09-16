@@ -36,7 +36,7 @@ public class Order {
   private LocalDate date;
 
   @OneToMany(mappedBy = "order")
-//  @NotEmpty(message = "order_items" + REQUIRED_FIELD)
+  @NotEmpty(message = "order_items" + REQUIRED_FIELD)
   private Set<Item> items = new HashSet<>();
 
   @NotNull(message = "orderTotal" + REQUIRED_FIELD)

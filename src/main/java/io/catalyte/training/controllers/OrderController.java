@@ -44,12 +44,12 @@ public class OrderController {
     return new ResponseEntity<>(orderService.queryOrders(order), HttpStatus.OK);
   }
 
-  @GetMapping(value = "/item")
-  public ResponseEntity<List<Order>> getOrdersByItem(Item item) {
-    logger.info(new Date() + " Query request received: " + item.toString());
-
-    return new ResponseEntity<>(orderService.queryOrdersByItem(item), HttpStatus.OK);
-  }
+//  @GetMapping(value = "/item")
+//  public ResponseEntity<List<Order>> getOrdersByItem(Item item) {
+//    logger.info(new Date() + " Query request received: " + item.toString());
+//
+//    return new ResponseEntity<>(orderService.queryOrdersByItem(item), HttpStatus.OK);
+//  }
 
   @PostMapping
   public ResponseEntity<Order> saveOrder(@Valid @RequestBody Order order) {

@@ -127,7 +127,7 @@ public class Customer {
         getName().equals(customer.getName()) &&
         getEmail().equals(customer.getEmail()) &&
         getAddress().equals(customer.getAddress()) &&
-        getOrders().equals(customer.getOrders());
+        Objects.equals(getOrders(), customer.getOrders());
   }
 
   @Override

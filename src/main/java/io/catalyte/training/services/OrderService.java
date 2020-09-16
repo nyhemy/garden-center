@@ -10,7 +10,7 @@ public interface OrderService {
 
   List<Order> queryOrders(Order order);
 
-  List<Order> queryOrdersByItem(Item item);
+//  List<Order> queryOrdersByItem(Item item);
 
   Order addOrder(Order order);
 

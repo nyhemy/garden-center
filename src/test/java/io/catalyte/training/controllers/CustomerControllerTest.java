@@ -30,8 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserControllerTest {
-
+public class CustomerControllerTest {
   @Autowired
   private WebApplicationContext wac;
 
@@ -44,35 +43,39 @@ public class UserControllerTest {
   ResultMatcher expectedType = MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8);
 
   @Before
-  public void setup () {
+  public void setUp() {
     DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
     this.mockMvc = builder.build();
   }
 
   @Test
-  public void test1_getUser() throws Exception{
+  public void test1_getCustomer() throws Exception{
     mockMvc
-        .perform(get("/" + "users/1"))
-        .andExpect(jsonPath("$.name", is("John Smith")))
+        .perform(get("/" + "customers/1"))
+        .andExpect(jsonPath("$.name", is("Jacob Keyes")))
         .andExpect(okStatus)
         .andExpect(expectedType);
   }
 
   @Test
-  public void test2_queryUsers() throws Exception{
+  public void test2_queryCustomers() throws Exception{
     mockMvc
-        .perform(get("/" + "users"))
+        .perform(get("/" + "customers"))
         .andExpect(jsonPath("$", hasSize(3)))
         .andExpect(okStatus)
         .andExpect(expectedType);
   }
 
   @Test
-  public void test3_saveUser() throws Exception{
-    String json = "{\"id\":4,\"name\":\"Sum Bodey\",\"title\":\"Miner\",\"roles\":[\"Miner\",\"Forger\"],\"email\":\"sbodey@gmail.com\",\"password\":\"boimcloi\"}";
+  public void test3_getCustomerByAddress() throws Exception{
+  }
+
+  @Test
+  public void test4_saveCustomer() throws Exception{
+    String json = "{\"id\":4,\"name\":\"Gabriel Reyes\",\"email\":\"greyes@gmail.com\",\"address\":{\"id\":1,\"street\":\"Daniel Rd\",\"city\":\"Shrewsbury\",\"state\":\"MA\",\"zipCode\":\"01545\"}}";
 
     this.mockMvc
-        .perform(post("/" + "users")
+        .perform(post("/" + "customers")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
         .andExpect(jsonPath("$.id", is(4)))
@@ -81,23 +84,23 @@ public class UserControllerTest {
   }
 
   @Test
-  public void test4_updateUserById() throws Exception{
-    String json = "{\"id\":1,\"name\":\"Johnny Smith\",\"title\":\"Smithy in Chief\",\"roles\":[\"Supervisor\",\"Smithy\"],\"email\":\"jsmith@gmail.com\",\"password\":\"mcclangers\"}";
+  public void test5_updateCustomerById() throws Exception{
+    String json = "{\"id\":1,\"name\":\"Miranda Keyes\",\"email\":\"jkeyes@gmail.com\",\"address\":{\"id\":1,\"street\":\"Daniel Rd\",\"city\":\"Shrewsbury\",\"state\":\"MA\",\"zipCode\":\"01545\"}}";
 
     this.mockMvc
 
-        .perform(put("/" + "users/1")
+        .perform(put("/" + "customers/1")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
-        .andExpect(jsonPath("$.name", is("Johnny Smith")))
+        .andExpect(jsonPath("$.name", is("Miranda Keyes")))
         .andExpect(okStatus)
         .andExpect(expectedType);
   }
 
   @Test
-  public void test5_deleteUserById() throws Exception{
+  public void test6_deleteCustomerById() throws Exception{
     mockMvc
-        .perform(delete("/" + "users/3"))
+        .perform(delete("/" + "customers/3"))
         .andExpect(deletedStatus);
   }
 }
