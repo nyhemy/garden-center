@@ -11,7 +11,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,12 +38,13 @@ public class Order {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate date;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @NotEmpty(message = "order_items" + REQUIRED_FIELD)
   private Set<Item> items = new HashSet<>();
 
-  @NotNull(message = "orderTotal" + REQUIRED_FIELD)
-  @Digits(integer = 999999999, fraction = 2)
+//  @Digits(integer = 999999999, fraction = 2)
+//  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
+  @NotNull
   private BigDecimal orderTotal;
 
   @ManyToOne
@@ -58,7 +62,7 @@ public class Order {
           + REQUIRED_FIELD) @Digits(integer = 999999999, fraction = 2) BigDecimal orderTotal,
       Customer customerId) {
     this.date = date;
-    this.items = items;
+    /*this.items = items;*/
     this.orderTotal = orderTotal;
     this.customerId = customerId;
   }
@@ -123,16 +127,16 @@ public class Order {
       return false;
     }
     Order order = (Order) o;
-    return getId().equals(order.getId()) &&
-        getDate().equals(order.getDate()) &&
-        getItems().equals(order.getItems()) &&
-        getOrderTotal().equals(order.getOrderTotal()) &&
-        getCustomerId().equals(order.getCustomerId());
+    return Objects.equals(id, order.id) &&
+        Objects.equals(date, order.date) &&
+        Objects.equals(items, order.items) &&
+        Objects.equals(orderTotal, order.orderTotal) &&
+        Objects.equals(customerId, order.customerId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getDate(), getItems(), getOrderTotal(), getCustomerId());
+    return Objects.hash(id, /*date, items,*/ orderTotal/*, customerId*/);
   }
 
   @JsonIgnore

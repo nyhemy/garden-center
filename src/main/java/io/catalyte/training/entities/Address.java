@@ -4,8 +4,10 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +36,10 @@ public class Address {
 
   @NotBlank(message = "zipcode" + REQUIRED_FIELD)
   private String zipCode;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonIgnore
+  private Customer customer;
 
   public Address() {
   }
@@ -91,6 +97,14 @@ public class Address {
     this.zipCode = zipCode;
   }
 
+  public Customer getCustomer() {
+    return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
+  }
+
   @Override
   public String toString() {
     return "Address{" +
@@ -111,16 +125,16 @@ public class Address {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(getId(), address.getId()) &&
-        Objects.equals(getStreet(), address.getStreet()) &&
-        Objects.equals(getCity(), address.getCity()) &&
-        Objects.equals(getState(), address.getState()) &&
-        Objects.equals(getZipCode(), address.getZipCode());
+    return Objects.equals(id, address.id) &&
+        Objects.equals(street, address.street) &&
+        Objects.equals(city, address.city) &&
+        Objects.equals(state, address.state) &&
+        Objects.equals(zipCode, address.zipCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getStreet(), getCity(), getState(), getZipCode());
+    return Objects.hash(id, street, city, state, zipCode);
   }
 
   @JsonIgnore

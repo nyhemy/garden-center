@@ -123,16 +123,16 @@ public class Customer {
       return false;
     }
     Customer customer = (Customer) o;
-    return getId().equals(customer.getId()) &&
-        getName().equals(customer.getName()) &&
-        getEmail().equals(customer.getEmail()) &&
-        getAddress().equals(customer.getAddress()) &&
-        Objects.equals(getOrders(), customer.getOrders());
+    return Objects.equals(id, customer.id) &&
+        Objects.equals(name, customer.name) &&
+        Objects.equals(email, customer.email) &&
+        Objects.equals(address, customer.address) &&
+        Objects.equals(orders, customer.orders);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getEmail(), getAddress(), getOrders());
+    return Objects.hash(id, name, email, address, orders);
   }
 
   @JsonIgnore

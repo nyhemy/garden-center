@@ -98,15 +98,15 @@ public class Item {
       return false;
     }
     Item item = (Item) o;
-    return getId().equals(item.getId()) &&
-        getProduct().equals(item.getProduct()) &&
-        getQuantity().equals(item.getQuantity()) &&
-        getOrder().equals(item.getOrder());
+    return Objects.equals(id, item.id) &&
+        Objects.equals(product, item.product) &&
+        Objects.equals(quantity, item.quantity) &&
+        Objects.equals(order, item.order);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getProduct(), getQuantity(), getOrder());
+    return Objects.hash(id, product, quantity, order);
   }
 
   @JsonIgnore

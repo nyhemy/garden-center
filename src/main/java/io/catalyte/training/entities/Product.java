@@ -5,11 +5,14 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,9 +40,15 @@ public class Product {
   @NotBlank(message = "manufacturer" + REQUIRED_FIELD)
   private String manufacturer;
 
-  @NotNull(message = "price" + REQUIRED_FIELD)
-  @Digits(integer = 999999999, fraction = 2)
+//  @Digits(integer = 999999999, fraction = 2)
+//  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
+  @NotNull
   private BigDecimal price;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JsonIgnore
+  @Valid
+  private Item item;
 
   public Product() {
   }
@@ -140,20 +149,18 @@ public class Product {
       return false;
     }
     Product product = (Product) o;
-    return Objects.equals(getId(), product.getId()) &&
-        Objects.equals(getSku(), product.getSku()) &&
-        Objects.equals(getType(), product.getType()) &&
-        Objects.equals(getName(), product.getName()) &&
-        Objects.equals(getDescription(), product.getDescription()) &&
-        Objects.equals(getManufacturer(), product.getManufacturer()) &&
-        Objects.equals(getPrice(), product.getPrice());
+    return Objects.equals(id, product.id) &&
+        Objects.equals(sku, product.sku) &&
+        Objects.equals(type, product.type) &&
+        Objects.equals(name, product.name) &&
+        Objects.equals(description, product.description) &&
+        Objects.equals(manufacturer, product.manufacturer) &&
+        Objects.equals(price, product.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects
-        .hash(getId(), getSku(), getType(), getName(), getDescription(), getManufacturer(),
-            getPrice());
+    return Objects.hash(id, sku, type, name, description, manufacturer, price);
   }
 
   @JsonIgnore

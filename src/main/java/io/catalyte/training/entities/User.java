@@ -133,17 +133,19 @@ public class User {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(getId(), user.getId()) &&
-        Objects.equals(getName(), user.getName()) &&
-        Objects.equals(getTitle(), user.getTitle()) &&
-        Arrays.equals(getRoles(), user.getRoles()) &&
-        Objects.equals(getEmail(), user.getEmail()) &&
-        Objects.equals(getPassword(), user.getPassword());
+    return Objects.equals(id, user.id) &&
+        Objects.equals(name, user.name) &&
+        Objects.equals(title, user.title) &&
+        Arrays.equals(roles, user.roles) &&
+        Objects.equals(email, user.email) &&
+        Objects.equals(password, user.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getName(), getTitle(), getRoles(), getEmail(), getPassword());
+    int result = Objects.hash(id, name, title, email, password);
+    result = 31 * result + Arrays.hashCode(roles);
+    return result;
   }
 
   @JsonIgnore

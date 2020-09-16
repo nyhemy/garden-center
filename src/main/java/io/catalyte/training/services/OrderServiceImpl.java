@@ -9,6 +9,7 @@ import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.ItemRepository;
 import io.catalyte.training.repositories.OrderRepository;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -94,7 +95,21 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public Order addOrder(Order order) {
+    if(order.getOrderTotal().scale() != 2) {
+      throw new BadDataResponse("order total must have two decimal places.");
+    }
     try {
+      BigDecimal orderTotal = BigDecimal.valueOf(0);
+
+      for(Item item : order.getItems()) {
+        BigDecimal price = item.getProduct().getPrice();
+        Integer quantity = item.getQuantity();
+
+        BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
+
+        orderTotal.add(multiplied);
+      }
+      order.setOrderTotal(orderTotal);
       return orderRepository.save(order);
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
@@ -103,6 +118,11 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public Order updateOrderById(Long id, Order order) {
+
+    if(order.getOrderTotal().scale() != 2) {
+      throw new BadDataResponse("order total must have two decimal places.");
+    }
+
     if (!order.getId().equals(id))
     {
       throw new BadDataResponse("Order ID must match the ID specified in the URL");

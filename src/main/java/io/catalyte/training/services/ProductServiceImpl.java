@@ -53,6 +53,10 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Product addProduct(Product product) {
+    if(product.getPrice().scale() != 2) {
+      throw new BadDataResponse("order price must have two decimal places.");
+    }
+
     for (Product productSkuCheck : productRepository.findAll()) {
       if (productSkuCheck.getSku().equals(product.getSku())) {
 
@@ -68,6 +72,11 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Product updateProductById(Long id, Product product) {
+
+    if(product.getPrice().scale() != 2) {
+      throw new BadDataResponse("order price must have two decimal places.");
+    }
+
     if (!product.getId().equals(id)) {
       throw new BadDataResponse("Product ID must match the ID specified in the URL");
     }
