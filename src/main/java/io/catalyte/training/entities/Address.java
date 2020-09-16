@@ -41,6 +41,10 @@ public class Address {
   @JsonIgnore
   private Customer customer;
 
+//  @OneToOne(fetch = FetchType.EAGER)
+//  @JsonIgnore
+//  private Customer customer;
+
   public Address() {
   }
 

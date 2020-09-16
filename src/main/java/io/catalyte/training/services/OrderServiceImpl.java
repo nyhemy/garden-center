@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
         BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
 
-        orderTotal.add(multiplied);
+        orderTotal = orderTotal.add(multiplied);
       }
       order.setOrderTotal(orderTotal);
       return orderRepository.save(order);
@@ -132,6 +132,17 @@ public class OrderServiceImpl implements OrderService {
       Order orderFromDb = orderRepository.findById(id).orElse(null);
 
       if (orderFromDb != null) {
+        BigDecimal orderTotal = BigDecimal.valueOf(0);
+
+        for(Item item : order.getItems()) {
+          BigDecimal price = item.getProduct().getPrice();
+          Integer quantity = item.getQuantity();
+
+          BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
+
+          orderTotal = orderTotal.add(multiplied);
+        }
+        order.setOrderTotal(orderTotal);
         return orderRepository.save(order);
       }
     } catch (Exception e) {
