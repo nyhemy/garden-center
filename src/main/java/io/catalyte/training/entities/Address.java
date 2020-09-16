@@ -45,6 +45,10 @@ public class Address {
 //  @JsonIgnore
 //  private Customer customer;
 
+//  @OneToMany(mappedBy = "address")
+//  @JsonIgnore
+//  private final Set<Customers> customers = new HashSet<>();
+
   public Address() {
   }
 

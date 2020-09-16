@@ -39,11 +39,11 @@ public class ProductServiceImplTest {
 
     testProduct1 = new Product("TTNM-00004-ORE", "Ore", "Titanium Ore Grade 04",
         "Grade 04 raw titanium ore, primarily used high stress environments.", "Charon Industries",
-        BigDecimal.valueOf(30.00));
+        BigDecimal.valueOf(30.01));
     testProduct2 = new Product("TTNM-00023-ALY", "Alloy", "Titanium Alloy Grade 23",
         "Grade 23 titanium alloy, superior choice for various rugged fabrications.",
         "Charon Industries",
-        BigDecimal.valueOf(50.00));
+        BigDecimal.valueOf(50.01));
 
     testProduct1.setId(1L);
     testProduct2.setId(2L);

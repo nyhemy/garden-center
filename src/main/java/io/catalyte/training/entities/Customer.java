@@ -53,6 +53,10 @@ public class Customer {
   @JsonIgnore
   private Set<Order> orders = new HashSet<>();
 
+//  @OneToMany(mappedBy = "address")
+//  @JsonIgnore
+//  private final Set<Customers> customers = new HashSet<>();
+
   public Customer() {
   }
 
