@@ -43,11 +43,11 @@ public class CustomerServiceImplTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    testAddress1 = new Address("Daniel Rd", "Shrewsbury", "MA", "01545");
-    testAddress2 = new Address("Lynview Dr", "San Jose", "CA", "95135");
+    testCustomer1 = new Customer("Jacob Keyes", "jkeyes@gmail.com");
+    testCustomer2 = new Customer("Super Bee", "sbee@gmail.com");
 
-    testCustomer1 = new Customer("Jacob Keyes", "jkeyes@gmail.com", testAddress1);
-    testCustomer2 = new Customer("Super Bee", "sbee@gmail.com", testAddress2);
+    testAddress1 = new Address("Daniel Rd", "Shrewsbury", "MA", "01545", testCustomer1);
+    testAddress2 = new Address("Lynview Dr", "San Jose", "CA", "95135", testCustomer2);
 
     testAddress1.setId(1L);
     testAddress2.setId(2L);

@@ -119,6 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
           }
         }
         try {
+          customer.getAddress().setCustomer(customer);
           return customerRepository.save(customer);
         } catch (Exception e) {
           throw new ServiceUnavailable(e);

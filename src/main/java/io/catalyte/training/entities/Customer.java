@@ -39,14 +39,14 @@ public class Customer {
   @Email(message = "email" + INVALID_EMAIL)
   private String email;
 
-  @OneToOne
-  @NotNull(message = "address" + REQUIRED_FIELD)
-  private Address address;
-
-//  @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-//  @Valid
-////  @ApiModelProperty(notes = "the customer address") //This is used for swagger
+//  @OneToOne
+//  @NotNull(message = "address" + REQUIRED_FIELD)
 //  private Address address;
+
+  @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+  @Valid
+//  @ApiModelProperty(notes = "the customer address") //This is used for swagger
+  private Address address;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "customer_id", referencedColumnName = "id")
@@ -64,23 +64,9 @@ public class Customer {
       @NotBlank(message = "name" + REQUIRED_FIELD) String name,
       @NotBlank(message = "email"
           + REQUIRED_FIELD) @Email(message = "email"
-          + INVALID_EMAIL) String email,
-      @NotNull(message = "address"
-          + REQUIRED_FIELD) Address address) {
+          + INVALID_EMAIL) String email) {
     this.name = name;
     this.email = email;
-    this.address = address;
-  }
-
-  @Override
-  public String toString() {
-    return "Customer{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", email='" + email + '\'' +
-        ", address=" + address +
-        ", orders=" + orders +
-        '}';
   }
 
   public Long getId() {
@@ -123,7 +109,37 @@ public class Customer {
     this.orders = orders;
   }
 
+  @Override
+  public String toString() {
+    return "Customer{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", email='" + email + '\'' +
+        ", address=" + address +
+        ", orders=" + orders +
+        '}';
+  }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Customer customer = (Customer) o;
+    return Objects.equals(id, customer.id) &&
+        Objects.equals(name, customer.name) &&
+        Objects.equals(email, customer.email) &&
+        Objects.equals(address, customer.address) &&
+        Objects.equals(orders, customer.orders);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, email, address, orders);
+  }
 
   @JsonIgnore
   public boolean isEmpty() {

@@ -78,9 +78,9 @@ public class DataLoader implements CommandLineRunner {
     logger.info("Loading data...");
 
     loadUsers();
+    loadCustomers();
     loadAddresses();
     loadProducts();
-    loadCustomers();
 //    loadItems();
     loadOrders();
   }
@@ -99,10 +99,28 @@ public class DataLoader implements CommandLineRunner {
             "diggydiggyhole"));
   }
 
+  private void loadCustomers() {
+    //change so that you build customers first then add addresses
+    customer1 = customerRepository.save(new Customer("Jacob Keyes", "jkeyes@gmail.com"));
+    customer2 = customerRepository.save(new Customer("Super Bee", "sbee@gmail.com"));
+    customer3 = customerRepository.save(new Customer("Cest Tous", "ctous@gmail.com"));
+  }
+
+//  private void loadItems() {
+//    item1 = itemRepository.save(new Item(product1, 1));
+//    item2 = itemRepository.save(new Item(product2, 3));
+//    item3 = itemRepository.save(new Item(product3, 2));
+//    item4 = itemRepository.save(new Item(product3, 4));
+//
+//    Collections.addAll(items1, item1, item2);
+//    Collections.addAll(items2, item3);
+//    Collections.addAll(items3, item4);
+//  }
+
   private void loadAddresses() {
-    address1 = addressRepository.save(new Address("Daniel Rd", "Shrewsbury", "MA", "01545"));
-    address2 = addressRepository.save(new Address("Lynview Dr", "San Jose", "CA", "95135"));
-    address3 = addressRepository.save(new Address("Fake St", "Aiea", "HI", "96701"));
+    address1 = addressRepository.save(new Address("Daniel Rd", "Shrewsbury", "MA", "01545", customer1));
+    address2 = addressRepository.save(new Address("Lynview Dr", "San Jose", "CA", "95135", customer2));
+    address3 = addressRepository.save(new Address("Fake St", "Aiea", "HI", "96701", customer3));
   }
 
   private void loadProducts() {
@@ -120,24 +138,6 @@ public class DataLoader implements CommandLineRunner {
             "Charon Labs",
             BigDecimal.valueOf(30.00)));
   }
-
-  private void loadCustomers() {
-    //change so that you build customers first then add addresses
-    customer1 = customerRepository.save(new Customer("Jacob Keyes", "jkeyes@gmail.com", address1));
-    customer2 = customerRepository.save(new Customer("Super Bee", "sbee@gmail.com", address2));
-    customer3 = customerRepository.save(new Customer("Cest Tous", "ctous@gmail.com", address3));
-  }
-
-//  private void loadItems() {
-//    item1 = itemRepository.save(new Item(product1, 1));
-//    item2 = itemRepository.save(new Item(product2, 3));
-//    item3 = itemRepository.save(new Item(product3, 2));
-//    item4 = itemRepository.save(new Item(product3, 4));
-//
-//    Collections.addAll(items1, item1, item2);
-//    Collections.addAll(items2, item3);
-//    Collections.addAll(items3, item4);
-//  }
 
   private void loadOrders() {
 //    item1 = itemRepository.save(new Item(product1, 1));

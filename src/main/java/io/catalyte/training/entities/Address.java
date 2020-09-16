@@ -37,13 +37,13 @@ public class Address {
   @NotBlank(message = "zipcode" + REQUIRED_FIELD)
   private String zipCode;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JsonIgnore
-  private Customer customer;
-
-//  @OneToOne(fetch = FetchType.EAGER)
+//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //  @JsonIgnore
 //  private Customer customer;
+
+  @OneToOne(fetch = FetchType.EAGER)
+  @JsonIgnore
+  private Customer customer;
 
 //  @OneToMany(mappedBy = "address")
 //  @JsonIgnore
@@ -58,11 +58,12 @@ public class Address {
       @NotBlank(message = "state"
           + REQUIRED_FIELD) String state,
       @NotBlank(message = "zipcode"
-          + REQUIRED_FIELD) String zipCode) {
+          + REQUIRED_FIELD) String zipCode, Customer customer) {
     this.street = street;
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
+    this.customer = customer;
   }
 
   public Long getId() {
@@ -121,6 +122,7 @@ public class Address {
         ", city='" + city + '\'' +
         ", state='" + state + '\'' +
         ", zipCode='" + zipCode + '\'' +
+        ", customer=" + customer +
         '}';
   }
 
@@ -137,12 +139,13 @@ public class Address {
         Objects.equals(street, address.street) &&
         Objects.equals(city, address.city) &&
         Objects.equals(state, address.state) &&
-        Objects.equals(zipCode, address.zipCode);
+        Objects.equals(zipCode, address.zipCode) &&
+        Objects.equals(customer, address.customer);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, street, city, state, zipCode);
+    return Objects.hash(id, street, city, state, zipCode, customer);
   }
 
   @JsonIgnore
@@ -151,6 +154,7 @@ public class Address {
         Objects.isNull(street) &&
         Objects.isNull(city) &&
         Objects.isNull(state) &&
-        Objects.isNull(zipCode);
+        Objects.isNull(zipCode) &&
+        Objects.isNull(customer);
   }
 }
