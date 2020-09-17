@@ -8,6 +8,7 @@ import io.catalyte.training.entities.Product;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
+import io.catalyte.training.repositories.CustomerRepository;
 import io.catalyte.training.repositories.ItemRepository;
 import io.catalyte.training.repositories.OrderRepository;
 import io.catalyte.training.repositories.ProductRepository;
@@ -32,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
   private ItemRepository itemRepository;
   @Autowired
   private ProductRepository productRepository;
+  @Autowired
+  private CustomerRepository customerRepository;
 
   @Override
   public Order getOrder(Long id) {
@@ -101,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
   @Override
   // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
+    //V1
     if(order.getOrderTotal().scale() != 2) {
       throw new BadDataResponse("order total must have two decimal places.");
     }
@@ -117,13 +121,71 @@ public class OrderServiceImpl implements OrderService {
 
           orderTotal = orderTotal.add(multiplied);
         }
-        item.setOrder(order);
       }
       order.setOrderTotal(orderTotal);
+      for (Item item : order.getItems()) {
+        item.setOrder(order);
+      }
       return orderRepository.save(order);
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
+
+    //V2Test
+//    boolean validProductList = true;
+//    boolean validCustomerId = true;
+//
+//    // get distinct list of productIds associated with the order
+//    Long[] productIds = order.getItems().stream()
+//        .map(Item::getProductId)
+//        .toArray(Long[]::new);
+//
+//    // loop through Product Ids and make sure each is valid
+//    for (Long id : productIds) {
+//      try {
+//
+//        //if the product doesn't exist, set the flag
+//        if (!productRepository.existsById(id)) {
+//          validProductList = false;
+//          break;
+//        }
+//      } catch (Exception e) {
+//        throw new ServiceUnavailable(e);
+//      }
+//    }
+//
+//    // throw error if one or more products is not valid
+//    if (!validProductList) {
+//      throw new ResourceNotFound("could not locate product with that id");
+//    }
+//
+//    try {
+//      validCustomerId = customerRepository.existsById(order.getCustomerId());
+//    } catch (Exception e) {
+//      throw new ServiceUnavailable(e);
+//    }
+//
+//    // throw error if customer is not valid
+//    if (!validCustomerId) {
+//      throw new ResourceNotFound("no customer found with that id");
+//    }
+//
+//    // check if order total has exactly 2 decimal places
+//    if (order.getOrderTotal().scale() != 2) {
+//      throw new BadDataResponse("orderTotal must have exactly two decimal places");
+//    }
+//
+//    // set order for every item in the order
+//    for (Item item : order.getItems()) {
+//      item.setOrder(order);
+//    }
+//
+//    // save the new order
+//    try {
+//      return orderRepository.save(order);
+//    } catch (Exception e) {
+//      throw new ServiceUnavailable(e);
+//    }
   }
 
   @Override

@@ -147,9 +147,9 @@ public class Order {
   @JsonIgnore
   public boolean isEmpty() {
     return Objects.isNull(id) &&
+        Objects.isNull(customerId) &&
         Objects.isNull(date) &&
-        Objects.isNull(items) &&
-        Objects.isNull(orderTotal) &&
-        Objects.isNull(customerId);
+        items.toArray().length == 0 &&
+        Objects.isNull(orderTotal);
   }
 }
