@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserRepository userRepository;
 
+  String[] validRoles = {"EMPLOYEE", "ADMIN"};
+
   @Override
   public User getUser(Long id) {
     try {
@@ -59,17 +61,24 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User addUser(User user) {
-    for (User userEmailCheck : userRepository.findAll()) {
-      if (userEmailCheck.getEmail().equals(user.getEmail())) {
+    for (String role : validRoles) {
+      for (String r : user.getRoles()) {
+        if (r.equals(role)) {
+          for (User userEmailCheck : userRepository.findAll()) {
+            if (userEmailCheck.getEmail().equals(user.getEmail())) {
 
-        throw new Conflict("Email is already taken by another user");
+              throw new Conflict("Email is already taken by another user");
+            }
+          }
+          try {
+            return userRepository.save(user);
+          } catch (Exception e) {
+            throw new ServiceUnavailable(e);
+          }
+        }
       }
     }
-    try {
-      return userRepository.save(user);
-    } catch (Exception e) {
-      throw new ServiceUnavailable(e);
-    }
+    throw new BadDataResponse("Invalid role");
   }
 
   @Override
@@ -82,6 +91,14 @@ public class UserServiceImpl implements UserService {
       if (!userEmailCheck.getId().equals(id) && userEmailCheck.getEmail().equals(user.getEmail())) {
 
         throw new Conflict("Email is already taken by another user");
+      }
+    }
+
+    for (String role : validRoles) {
+      for (String r : user.getRoles()) {
+        if (!r.equals(role)) {
+          throw new BadDataResponse("Invalid role");
+        }
       }
     }
 

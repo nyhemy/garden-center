@@ -89,15 +89,15 @@ public class DataLoader implements CommandLineRunner {
 
   private void loadUsers() {
     user1 = userRepository.save(
-        new User("John Smith", "Smithy in Chief", new String[]{"Supervisor", "Smithy"},
+        new User("John Smith", "Smithy in Chief", new String[]{"ADMIN"},
             "jsmith@gmail.com",
             "mcclangers"));
     user2 = userRepository.save(
-        new User("Jinky Jane", "Miner in Chief", new String[]{"Supervisor", "Miner"},
+        new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN","EMPLOYEE"},
             "jjane@gmail.com",
             "saltycookies"));
     user3 = userRepository.save(
-        new User("Fredo Mann", "Miner", new String[]{"Miner"}, "fmann@gmail.com",
+        new User("Fredo Mann", "Miner", new String[]{"EMPLOYEE"}, "fmann@gmail.com",
             "diggydiggyhole"));
   }
 
