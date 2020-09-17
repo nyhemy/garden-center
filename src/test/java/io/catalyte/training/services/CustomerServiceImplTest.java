@@ -117,7 +117,6 @@ public class CustomerServiceImplTest {
     when(customerRepository.existsById(anyLong())).thenReturn(true);
     customerServiceImpl.deleteCustomerById(Long.valueOf(1));
 
-    // check that the method was called
     verify(customerRepository).deleteById(any());
   }
 }
