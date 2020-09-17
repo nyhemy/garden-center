@@ -48,10 +48,10 @@ public class Customer {
 //  @ApiModelProperty(notes = "the customer address") //This is used for swagger
   private Address address;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "customer_id", referencedColumnName = "id")
-  @JsonIgnore
-  private Set<Order> orders = new HashSet<>();
+//  @OneToMany(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "customer_id", referencedColumnName = "id")
+//  @JsonIgnore
+//  private Set<Order> orders = new HashSet<>();
 
 //  @OneToMany(mappedBy = "address")
 //  @JsonIgnore
@@ -101,14 +101,6 @@ public class Customer {
     this.address = address;
   }
 
-  public Set<Order> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(Set<Order> orders) {
-    this.orders = orders;
-  }
-
   @Override
   public String toString() {
     return "Customer{" +
@@ -116,7 +108,6 @@ public class Customer {
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", address=" + address +
-        ", orders=" + orders +
         '}';
   }
 
@@ -132,13 +123,12 @@ public class Customer {
     return Objects.equals(id, customer.id) &&
         Objects.equals(name, customer.name) &&
         Objects.equals(email, customer.email) &&
-        Objects.equals(address, customer.address) &&
-        Objects.equals(orders, customer.orders);
+        Objects.equals(address, customer.address);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, email, address, orders);
+    return Objects.hash(id, name, email, address);
   }
 
   @JsonIgnore
@@ -146,7 +136,6 @@ public class Customer {
     return Objects.isNull(id) &&
         Objects.isNull(name) &&
         Objects.isNull(email) &&
-        Objects.isNull(address) &&
-        Objects.isNull(orders);
+        Objects.isNull(address);
   }
 }

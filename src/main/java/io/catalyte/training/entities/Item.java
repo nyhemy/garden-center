@@ -3,6 +3,7 @@ package io.catalyte.training.entities;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,10 +26,14 @@ public class Item {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
-  @NotNull (message = "product" + REQUIRED_FIELD)
-  @Valid
-  private Product product;
+  @NotNull(message = "product" + REQUIRED_FIELD)
+  @ApiModelProperty(notes = "the item's product ID")
+  private Long productId;
+
+//  @OneToOne
+//  @NotNull (message = "product" + REQUIRED_FIELD)
+//  @Valid
+//  private Product product;
 
   @NotNull (message = "quantity" + REQUIRED_FIELD)
   @Min(value = 0, message = "value should be greater than zero")
@@ -43,11 +48,11 @@ public class Item {
   }
 
   public Item(@NotNull(message = "product"
-      + REQUIRED_FIELD) @Valid Product product,
+      + REQUIRED_FIELD) Long productId,
       @NotNull(message = "quantity"
           + REQUIRED_FIELD) @Min(value = 0, message = "value should be greater than zero") Integer quantity,
       Order order) {
-    this.product = product;
+    this.productId = productId;
     this.quantity = quantity;
     this.order = order;
   }
@@ -60,12 +65,12 @@ public class Item {
     this.id = id;
   }
 
-  public Product getProduct() {
-    return product;
+  public Long getProductId() {
+    return productId;
   }
 
-  public void setProduct(Product product) {
-    this.product = product;
+  public void setProductId(Long productId) {
+    this.productId = productId;
   }
 
   public Integer getQuantity() {
@@ -88,7 +93,7 @@ public class Item {
   public String toString() {
     return "Item{" +
         "id=" + id +
-        ", product=" + product +
+        ", productId=" + productId +
         ", quantity=" + quantity +
         ", order=" + order +
         '}';
@@ -104,20 +109,20 @@ public class Item {
     }
     Item item = (Item) o;
     return Objects.equals(id, item.id) &&
-        Objects.equals(product, item.product) &&
+        Objects.equals(productId, item.productId) &&
         Objects.equals(quantity, item.quantity) &&
         Objects.equals(order, item.order);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, product, quantity, order);
+    return Objects.hash(id, productId, quantity, order);
   }
 
   @JsonIgnore
   public boolean isEmpty() {
     return Objects.isNull(id) &&
-        Objects.isNull(product) &&
+        Objects.isNull(productId) &&
         Objects.isNull(quantity) &&
         Objects.isNull(order);
   }

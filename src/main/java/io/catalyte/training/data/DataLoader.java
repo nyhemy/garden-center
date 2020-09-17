@@ -155,10 +155,10 @@ public class DataLoader implements CommandLineRunner {
 //    itemRepository.save(item4);
 
     //v1
-//    order1 = orderRepository.save(new Order(LocalDate.parse("2010-03-17"), items1, BigDecimal.valueOf(10.00), customer1));
-//    order2 = orderRepository.save(new Order(LocalDate.parse("2020-08-12"), items2, BigDecimal.valueOf(10.00), customer2));
-//    order3 = orderRepository.save(new Order(LocalDate.parse("2020-11-03"), items3, BigDecimal.valueOf(10.00), customer3));
-//    order4 = orderRepository.save(new Order(LocalDate.parse("2020-12-23"), items1, BigDecimal.valueOf(10.00), customer3));
+//    order1 = orderRepository.save(new Order(customer1, Date.valueOf("2010-03-17"), BigDecimal.valueOf(10.00)));
+//    order2 = orderRepository.save(new Order(customer2, Date.valueOf("2020-08-12"), BigDecimal.valueOf(10.00)));
+//    order3 = orderRepository.save(new Order(customer3, Date.valueOf("2020-11-03"), BigDecimal.valueOf(10.00)));
+//    order4 = orderRepository.save(new Order(customer3, Date.valueOf("2020-12-23"), BigDecimal.valueOf(10.00)));
 
     //v2
 //    order1 = new Order(LocalDate.parse("2010-03-17"), items1, BigDecimal.valueOf(10.00), customer1);
@@ -194,13 +194,12 @@ public class DataLoader implements CommandLineRunner {
     SimpleDateFormat yearMonthDay = new SimpleDateFormat("yyyy-MM-dd");
 
     String dateStr1 = "2020-01-21";
-//    Date date1 = Date.valueOf(dateStr1);
     Date date1 = Date.valueOf(dateStr1);
 
     Order gcOrder1 = new Order();
     Set<Item> itemsSet1 = new HashSet<>();
-    itemsSet1.add(new Item(product1, 1, gcOrder1));
-    itemsSet1.add(new Item(product2, 5, gcOrder1));
+    itemsSet1.add(new Item(product1.getId(), 1, gcOrder1));
+    itemsSet1.add(new Item(product2.getId(), 5, gcOrder1));
 
     gcOrder1.setId(gcOrder1.getId());
     gcOrder1.setCustomerId(customer1);
@@ -216,7 +215,7 @@ public class DataLoader implements CommandLineRunner {
 
     Order gcOrder2 = new Order();
     Set<Item> itemsSet2 = new HashSet<>();
-    itemsSet2.add(new Item(product3, 4, gcOrder2));
+    itemsSet2.add(new Item(product3.getId(), 4, gcOrder2));
 
     gcOrder2.setId(gcOrder2.getId());
     gcOrder2.setCustomerId(customer2);

@@ -4,14 +4,17 @@ import io.catalyte.training.entities.Address;
 import io.catalyte.training.entities.Customer;
 import io.catalyte.training.entities.Item;
 import io.catalyte.training.entities.Order;
+import io.catalyte.training.entities.Product;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.ItemRepository;
 import io.catalyte.training.repositories.OrderRepository;
+import io.catalyte.training.repositories.ProductRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class OrderServiceImpl implements OrderService {
   private OrderRepository orderRepository;
   @Autowired
   private ItemRepository itemRepository;
+  @Autowired
+  private ProductRepository productRepository;
 
   @Override
   public Order getOrder(Long id) {
@@ -94,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
 //  }
 
   @Override
+  // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
     if(order.getOrderTotal().scale() != 2) {
       throw new BadDataResponse("order total must have two decimal places.");
@@ -102,12 +108,16 @@ public class OrderServiceImpl implements OrderService {
       BigDecimal orderTotal = BigDecimal.valueOf(0);
 
       for(Item item : order.getItems()) {
-        BigDecimal price = item.getProduct().getPrice();
-        Integer quantity = item.getQuantity();
+        Product product = productRepository.findById(item.getProductId()).orElse(null);
+        if (product != null) {
+          BigDecimal price = product.getPrice();
+          Integer quantity = item.getQuantity();
 
-        BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
+          BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
 
-        orderTotal = orderTotal.add(multiplied);
+          orderTotal = orderTotal.add(multiplied);
+        }
+        item.setOrder(order);
       }
       order.setOrderTotal(orderTotal);
       return orderRepository.save(order);
@@ -135,12 +145,15 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal orderTotal = BigDecimal.valueOf(0);
 
         for(Item item : order.getItems()) {
-          BigDecimal price = item.getProduct().getPrice();
-          Integer quantity = item.getQuantity();
+          Product product = productRepository.findById(item.getProductId()).orElse(null);
+          if (product != null) {
+            BigDecimal price = product.getPrice();
+            Integer quantity = item.getQuantity();
 
-          BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
+            BigDecimal multiplied = price.multiply(BigDecimal.valueOf(quantity));
 
-          orderTotal = orderTotal.add(multiplied);
+            orderTotal = orderTotal.add(multiplied);
+          }
         }
         order.setOrderTotal(orderTotal);
         return orderRepository.save(order);

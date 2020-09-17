@@ -141,6 +141,5 @@ public class CustomerControllerTest {
     mockMvc
         .perform(delete("/" + "customers/3"))
         .andExpect(status().isNoContent());
-
   }
 }

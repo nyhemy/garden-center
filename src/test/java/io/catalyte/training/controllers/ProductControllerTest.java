@@ -10,6 +10,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.catalyte.training.entities.Product;
+import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -23,7 +26,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -33,53 +35,41 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserControllerTest {
+//NOTE: test 5 passes in isolation, but for some reason won't when entire test class is run at once.
+public class ProductControllerTest {
 
   @Autowired
   private WebApplicationContext wac;
 
   private MockMvc mockMvc;
 
-//  ResultMatcher okStatus = MockMvcResultMatchers.status().isOk();
-//  ResultMatcher createdStatus = MockMvcResultMatchers.status().isCreated();
-//  ResultMatcher deletedStatus = MockMvcResultMatchers.status().isNoContent();
-//  ResultMatcher notFoundStatus = MockMvcResultMatchers.status().isNotFound();
-//  ResultMatcher expectedType = MockMvcResultMatchers.content()
-//      .contentType(MediaType.APPLICATION_JSON_UTF8);
-
   @Before
-  public void setup() {
+  public void setUp() throws Exception {
     DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
     this.mockMvc = builder.build();
     MockitoAnnotations.initMocks(this);
   }
 
   @Test
-  public void test1_getUser() throws Exception {
+  public void test1_getProduct() throws Exception{
     String retType =
         mockMvc
-            .perform(get("/" + "users/1"))
-            .andExpect(jsonPath("$.name", is("John Smith")))
+            .perform(get("/" + "products/1"))
+            .andExpect(jsonPath("$.sku", is("TTNM-00004-ORE")))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
             .getContentType();
 
     Assert.assertEquals("application/json", retType);
-
-//    mockMvc
-//        .perform(get("/" + "users/1"))
-//        .andExpect(jsonPath("$.name", is("John Smith")))
-//        .andExpect(okStatus)
-//        .andExpect(expectedType);
   }
 
   @Test
-  public void test2_queryUsers() throws Exception {
+  public void test2_queryProducts() throws Exception{
     String retType =
 
         mockMvc
-            .perform(get("/" + "users"))
+            .perform(get("/" + "products"))
             .andExpect(jsonPath("$", hasSize(3)))
             .andExpect(status().isOk())
             .andReturn()
@@ -90,16 +80,27 @@ public class UserControllerTest {
   }
 
   @Test
-  public void test3_saveUser() throws Exception {
-    String json = "{\"id\":4,\"name\":\"Sum Bodey\",\"title\":\"Miner\",\"roles\":[\"Miner\",\"Forger\"],\"email\":\"sbodey@gmail.com\",\"password\":\"boimcloi\"}";
+  public void test3_saveProduct() throws Exception{
+    //    String json = "{\"id\":4,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
 
-    String retType =
-        this.mockMvc
-            .perform(post("/users")
+    Product product1 = new Product();
+    ObjectMapper mapper = new ObjectMapper();
+
+    product1.setId(4L);
+    product1.setSku("TTNM-00003-ORE");
+    product1.setType("Ore");
+    product1.setName("Titanium Ore Grade 03");
+    product1.setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
+    product1.setManufacturer("Charon Industries");
+    product1.setPrice(new BigDecimal("30.00"));
+
+    String json = mapper.writeValueAsString(product1);
+        String retType =
+        mockMvc
+            .perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
             .andExpect(jsonPath("$.id", is(4)))
-            .andExpect(status().isCreated())
             .andReturn()
             .getResponse()
             .getContentType();
@@ -108,16 +109,29 @@ public class UserControllerTest {
   }
 
   @Test
-  public void test4_updateUserById() throws Exception {
-    String json = "{\"id\":1,\"name\":\"Johnny Smith\",\"title\":\"Smithy in Chief\",\"roles\":[\"Supervisor\",\"Smithy\"],\"email\":\"jsmith@gmail.com\",\"password\":\"mcclangers\"}";
+  public void test4_updateProductById() throws Exception{
+//    String json = "{\"id\":1,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
 
+    Product product2 = new Product();
+    ObjectMapper mapper = new ObjectMapper();
+
+    product2.setId(1L);
+    product2.setSku("TTNM-00003-ORE");
+    product2.setType("Ore");
+    product2.setName("Titanium Ore Grade 04");
+    product2.setName("Titanium Ore Grade 03");
+    product2.setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
+    product2.setManufacturer("Charon Industries");
+    product2.setPrice(new BigDecimal("30.00"));
+
+    String json = mapper.writeValueAsString(product2);
     String retType =
-        this.mockMvc
-            .perform(put("/" + "users/1")
+        mockMvc
+            .perform(put("/products" + "/1", json)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-            .andExpect(jsonPath("$.name", is("Johnny Smith")))
             .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Titanium Ore Grade 03"))
             .andReturn()
             .getResponse()
             .getContentType();
@@ -126,9 +140,10 @@ public class UserControllerTest {
   }
 
   @Test
-  public void test5_deleteUserById() throws Exception {
+  // This test passes in isolation, but not when entire test class is run. No idea why.
+  public void test5_deleteProductById() throws Exception{
     mockMvc
-        .perform(delete("/" + "users/3"))
+        .perform(delete("/" + "products/3"))
         .andExpect(status().isNoContent());
   }
 }

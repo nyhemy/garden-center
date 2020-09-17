@@ -46,14 +46,17 @@ public class CustomerServiceImplTest {
     testCustomer1 = new Customer("Jacob Keyes", "jkeyes@gmail.com");
     testCustomer2 = new Customer("Super Bee", "sbee@gmail.com");
 
+    testCustomer1.setId(1L);
+    testCustomer2.setId(2L);
+
     testAddress1 = new Address("Daniel Rd", "Shrewsbury", "MA", "01545", testCustomer1);
     testAddress2 = new Address("Lynview Dr", "San Jose", "CA", "95135", testCustomer2);
 
     testAddress1.setId(1L);
     testAddress2.setId(2L);
 
-    testCustomer1.setId(1L);
-    testCustomer2.setId(2L);
+    testCustomer1.setAddress(testAddress1);
+    testCustomer2.setAddress(testAddress2);
 
     testCustomersList.add(testCustomer1);
     testAddressList.add(testAddress1);

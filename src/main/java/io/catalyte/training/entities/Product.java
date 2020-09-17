@@ -61,7 +61,8 @@ public class Product {
           + REQUIRED_FIELD) String description,
       @NotBlank(message = "manufacturer"
           + REQUIRED_FIELD) String manufacturer,
-      @NotNull BigDecimal price) {
+      @NotNull(message = "price"
+          + REQUIRED_FIELD) BigDecimal price) {
     this.sku = sku;
     this.type = type;
     this.name = name;
