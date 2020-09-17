@@ -1,8 +1,5 @@
 package io.catalyte.training.services;
 
-import static io.catalyte.training.constants.StringConstants.INPUT_CONFLICT;
-import static io.catalyte.training.constants.StringConstants.NOT_FOUND;
-
 import io.catalyte.training.entities.User;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.Conflict;
@@ -87,18 +84,25 @@ public class UserServiceImpl implements UserService {
       throw new BadDataResponse("User ID must match the ID specified in the URL");
     }
 
-    for (User userEmailCheck : userRepository.findAll()) {
-      if (!userEmailCheck.getId().equals(id) && userEmailCheck.getEmail().equals(user.getEmail())) {
+//    for (String r : user.getRoles()) {
+//      for (String role : validRoles) {
+//        if (!r.equals(role)) {
+//        }
+//      }
+//      throw new BadDataResponse("Invalid role");
+//    }
 
-        throw new Conflict("Email is already taken by another user");
+    for (String role : user.getRoles()) {
+      if (!ValidRoles.validRolesList.contains(role)) {
+        throw new BadDataResponse("Invalid role");
       }
     }
 
-    for (String role : validRoles) {
-      for (String r : user.getRoles()) {
-        if (!r.equals(role)) {
-          throw new BadDataResponse("Invalid role");
-        }
+    for (User userEmailCheck : userRepository.findAll()) {
+      if (!userEmailCheck.getId().equals(id) && userEmailCheck.getEmail()
+          .equals(user.getEmail())) {
+
+        throw new Conflict("Email is already taken by another user");
       }
     }
 
@@ -111,7 +115,6 @@ public class UserServiceImpl implements UserService {
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
-
     throw new ResourceNotFound("Could not locate a user with the id: " + id);
   }
 
