@@ -38,8 +38,8 @@ public class Order {
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate date;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @NotEmpty(message = "order_items" + REQUIRED_FIELD)
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+  @Valid
   private Set<Item> items = new HashSet<>();
 
 //  @Digits(integer = 999999999, fraction = 2)

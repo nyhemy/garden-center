@@ -125,7 +125,7 @@ public class DataLoader implements CommandLineRunner {
 
   private void loadProducts() {
     product1 = productRepository.save(new Product("TTNM-00004-ORE", "Ore", "Titanium Ore Grade 04",
-        "Grade 04 raw titanium ore, primarily used high stress environments.", "Charon Industries",
+        "Grade 04 raw titanium ore, primarily used in high stress environments.", "Charon Industries",
         BigDecimal.valueOf(30.00)));
     product2 = productRepository
         .save(new Product("TTNM-00023-ALY", "Alloy", "Titanium Alloy Grade 23",
@@ -195,11 +195,11 @@ public class DataLoader implements CommandLineRunner {
 //    Date date1 = Date.valueOf(dateStr1);
     LocalDate date1 = LocalDate.parse(dateStr1);
 
-    Set<Item> itemsSet1 = new HashSet<>();
-    itemsSet1.add(new Item(product1, 1));
-    itemsSet1.add(new Item(product2, 5));
-
     Order gcOrder1 = new Order();
+    Set<Item> itemsSet1 = new HashSet<>();
+    itemsSet1.add(new Item(product1, 1, gcOrder1));
+    itemsSet1.add(new Item(product2, 5, gcOrder1));
+
     gcOrder1.setId(gcOrder1.getId());
     gcOrder1.setCustomerId(customer1);
     gcOrder1.setDate(date1);
@@ -212,10 +212,10 @@ public class DataLoader implements CommandLineRunner {
 //    Date date1 = Date.valueOf(dateStr1);
     LocalDate date2 = LocalDate.parse(dateStr2);
 
-    Set<Item> itemsSet2 = new HashSet<>();
-    itemsSet2.add(new Item(product3, 4));
-
     Order gcOrder2 = new Order();
+    Set<Item> itemsSet2 = new HashSet<>();
+    itemsSet2.add(new Item(product3, 4, gcOrder2));
+
     gcOrder2.setId(gcOrder2.getId());
     gcOrder2.setCustomerId(customer2);
     gcOrder2.setDate(date2);

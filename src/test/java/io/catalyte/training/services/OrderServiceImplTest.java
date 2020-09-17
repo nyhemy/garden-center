@@ -49,8 +49,8 @@ public class OrderServiceImplTest {
         "Charon Industries",
         BigDecimal.valueOf(50.00));
 
-    testItem1 = new Item(testProduct1, 1);
-    testItem2 = new Item(testProduct2, 3);
+    testItem1 = new Item(testProduct1, 1, testOrder1);
+    testItem2 = new Item(testProduct2, 3, testOrder2);
 
 //    testOrder1 = new Order();
 //    testOrder2 = new Order();

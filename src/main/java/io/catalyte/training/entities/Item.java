@@ -5,6 +5,7 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -25,13 +27,14 @@ public class Item {
 
   @OneToOne
   @NotNull (message = "product" + REQUIRED_FIELD)
-  Product product;
+  @Valid
+  private Product product;
 
   @NotNull (message = "quantity" + REQUIRED_FIELD)
-  @Min(value = 0)
-  Integer quantity;
+  @Min(value = 0, message = "value should be greater than zero")
+  private Integer quantity;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name="order_id")
   @JsonIgnore
   private Order order;
@@ -40,21 +43,13 @@ public class Item {
   }
 
   public Item(@NotNull(message = "product"
-      + REQUIRED_FIELD) Product product,
+      + REQUIRED_FIELD) @Valid Product product,
       @NotNull(message = "quantity"
-          + REQUIRED_FIELD) @Min(value = 0) Integer quantity) {
+          + REQUIRED_FIELD) @Min(value = 0, message = "value should be greater than zero") Integer quantity,
+      Order order) {
     this.product = product;
     this.quantity = quantity;
-  }
-
-  @Override
-  public String toString() {
-    return "Items{" +
-        "id=" + id +
-        ", product=" + product +
-        ", quantity=" + quantity +
-        ", order=" + order +
-        '}';
+    this.order = order;
   }
 
   public Long getId() {
@@ -87,6 +82,16 @@ public class Item {
 
   public void setOrder(Order order) {
     this.order = order;
+  }
+
+  @Override
+  public String toString() {
+    return "Item{" +
+        "id=" + id +
+        ", product=" + product +
+        ", quantity=" + quantity +
+        ", order=" + order +
+        '}';
   }
 
   @Override

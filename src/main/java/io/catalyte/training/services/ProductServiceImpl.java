@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
   public Product updateProductById(Long id, Product product) {
 
     if(product.getPrice().scale() != 2) {
-      throw new BadDataResponse("product price must have two decimal places.");
+      throw new BadDataResponse("product price must have two decimal places");
     }
 
     if (!product.getId().equals(id)) {

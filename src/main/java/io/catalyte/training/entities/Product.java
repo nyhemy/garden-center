@@ -42,13 +42,13 @@ public class Product {
 
 //  @Digits(integer = 999999999, fraction = 2)
 //  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
-  @NotNull
+  @NotNull(message = "price" + REQUIRED_FIELD)
   private BigDecimal price;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JsonIgnore
-  @Valid
-  private Item item;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JsonIgnore
+//  @Valid
+//  private Item item;
 
   public Product() {
   }
@@ -61,8 +61,7 @@ public class Product {
           + REQUIRED_FIELD) String description,
       @NotBlank(message = "manufacturer"
           + REQUIRED_FIELD) String manufacturer,
-      @NotNull(message = "price"
-          + REQUIRED_FIELD) BigDecimal price) {
+      @NotNull BigDecimal price) {
     this.sku = sku;
     this.type = type;
     this.name = name;
