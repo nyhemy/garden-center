@@ -4,6 +4,7 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.OptBoolean;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "orders")
@@ -34,9 +36,16 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  @NotNull(message = "customerId" + REQUIRED_FIELD)
+  @Valid
+  private Customer customerId;
+
   @NotNull(message = "date" + REQUIRED_FIELD)
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDate date;
+  @JsonFormat(pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date date;
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   @Valid
@@ -44,38 +53,21 @@ public class Order {
 
 //  @Digits(integer = 999999999, fraction = 2)
 //  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
-  @NotNull
+  @NotNull(message = "orderTotal" + REQUIRED_FIELD)
   private BigDecimal orderTotal;
-
-  @ManyToOne
-  @JoinColumn(name = "customer_id", referencedColumnName = "id")
-  private Customer customerId;
 
   public Order() {
   }
 
-  public Order(@NotNull(message = "date"
-      + REQUIRED_FIELD) LocalDate date,
-      @NotEmpty(message = "order_items"
-          + REQUIRED_FIELD) Set<Item> items,
+  public Order(
+      @NotNull(message = "customerId"
+          + REQUIRED_FIELD) @Valid Customer customerId,
+      @NotNull(message = "date" + REQUIRED_FIELD) Date date,
       @NotNull(message = "orderTotal"
-          + REQUIRED_FIELD) @Digits(integer = 999999999, fraction = 2) BigDecimal orderTotal,
-      Customer customerId) {
-    this.date = date;
-    /*this.items = items;*/
-    this.orderTotal = orderTotal;
+          + REQUIRED_FIELD) BigDecimal orderTotal) {
     this.customerId = customerId;
-  }
-
-  @Override
-  public String toString() {
-    return "Order{" +
-        "id=" + id +
-        ", date=" + date +
-        ", items=" + items +
-        ", orderTotal=" + orderTotal +
-        ", customerId=" + customerId +
-        '}';
+    this.date = date;
+    this.orderTotal = orderTotal;
   }
 
   public Long getId() {
@@ -86,11 +78,19 @@ public class Order {
     this.id = id;
   }
 
-  public LocalDate getDate() {
+  public Customer getCustomerId() {
+    return customerId;
+  }
+
+  public void setCustomerId(Customer customerId) {
+    this.customerId = customerId;
+  }
+
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(LocalDate date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 
@@ -110,12 +110,15 @@ public class Order {
     this.orderTotal = orderTotal;
   }
 
-  public Customer getCustomerId() {
-    return customerId;
-  }
-
-  public void setCustomerId(Customer customerId) {
-    this.customerId = customerId;
+  @Override
+  public String toString() {
+    return "Order{" +
+        "id=" + id +
+        ", customerId=" + customerId +
+        ", date=" + date +
+        ", items=" + items +
+        ", orderTotal=" + orderTotal +
+        '}';
   }
 
   @Override
@@ -128,15 +131,15 @@ public class Order {
     }
     Order order = (Order) o;
     return Objects.equals(id, order.id) &&
+        Objects.equals(customerId, order.customerId) &&
         Objects.equals(date, order.date) &&
         Objects.equals(items, order.items) &&
-        Objects.equals(orderTotal, order.orderTotal) &&
-        Objects.equals(customerId, order.customerId);
+        Objects.equals(orderTotal, order.orderTotal);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, /*date, items,*/ orderTotal/*, customerId*/);
+    return Objects.hash(id, date, orderTotal);
   }
 
   @JsonIgnore

@@ -191,9 +191,11 @@ public class DataLoader implements CommandLineRunner {
 //    Collections.addAll(orders3, order4);
 
     // V3 Working
+    SimpleDateFormat yearMonthDay = new SimpleDateFormat("yyyy-MM-dd");
+
     String dateStr1 = "2020-01-21";
 //    Date date1 = Date.valueOf(dateStr1);
-    LocalDate date1 = LocalDate.parse(dateStr1);
+    Date date1 = Date.valueOf(dateStr1);
 
     Order gcOrder1 = new Order();
     Set<Item> itemsSet1 = new HashSet<>();
@@ -203,14 +205,14 @@ public class DataLoader implements CommandLineRunner {
     gcOrder1.setId(gcOrder1.getId());
     gcOrder1.setCustomerId(customer1);
     gcOrder1.setDate(date1);
-    gcOrder1.setOrderTotal(new BigDecimal("232.00"));
+    gcOrder1.setOrderTotal(new BigDecimal("280.00"));
     gcOrder1.setItems(itemsSet1);
 
     orderRepository.save(gcOrder1);
 
     String dateStr2 = "2020-06-22";
 //    Date date1 = Date.valueOf(dateStr1);
-    LocalDate date2 = LocalDate.parse(dateStr2);
+    Date date2 = Date.valueOf(dateStr2);
 
     Order gcOrder2 = new Order();
     Set<Item> itemsSet2 = new HashSet<>();
