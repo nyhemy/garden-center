@@ -73,16 +73,11 @@ public class CustomerServiceImpl implements CustomerService {
     // takes in an address field
     // returns an answer based on that field
     List<Customer> allCustomers = customerRepository.findAll();
+    List<Customer> customerList = new ArrayList<>();
 
     try {
-      if (address.isEmpty()) {
-        return allCustomers;
-
-      } else {
         Example<Address> addressExample = Example.of(address);
-
         List<Address> addressList = addressRepository.findAll(addressExample);
-        List<Customer> customerList = new ArrayList<>();
 
         for (Customer customer : allCustomers) {
 
@@ -93,9 +88,8 @@ public class CustomerServiceImpl implements CustomerService {
             }
           }
         }
-
         return customerList;
-      }
+
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
@@ -156,6 +150,8 @@ public class CustomerServiceImpl implements CustomerService {
           Customer customerFromDb = customerRepository.findById(id).orElse(null);
 
           if (customerFromDb != null) {
+            customer.getAddress().setId(customerFromDb.getAddress().getId());
+            customer.getAddress().setCustomer(customer);
             return customerRepository.save(customer);
           }
         } catch (Exception e) {
