@@ -102,6 +102,33 @@ public class OrderServiceImpl implements OrderService {
 //  }
 
   @Override
+  public List<Order> queryOrdersByItem(Item item) {
+    List<Order> allOrders = orderRepository.findAll();
+    List<Order> orderList = new ArrayList<>();
+
+    try {
+      Example<Item> itemExample = Example.of(item);
+      List<Item> itemList = itemRepository.findAll(itemExample);
+
+      for (Order order : allOrders) {
+
+        for (Item listItem : itemList) {
+
+          for (Item getItem : order.getItems()) {
+
+            if (getItem == listItem){
+              orderList.add(order);
+            }
+          }
+        }
+      }
+      return orderList;
+
+    } catch (Exception e) {
+      throw new ServiceUnavailable(e);
+    }  }
+
+  @Override
   // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
     //V1

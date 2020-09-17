@@ -118,7 +118,7 @@ public class Order {
         "id=" + id +
         ", customerId=" + customerId +
         ", date=" + date +
-        ", items=" + items +
+        ", items length=" + items.toArray().length +
         ", orderTotal=" + orderTotal +
         '}';
   }
