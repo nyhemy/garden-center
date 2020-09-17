@@ -96,6 +96,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
+  //be sure to delete all ids, from both address and customer, before posting
   public Customer addCustomer(Customer customer) {
 
     Matcher matcher = zipCodePattern.matcher(customer.getAddress().getZipCode());

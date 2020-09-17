@@ -8,12 +8,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,61 +44,89 @@ public class UserControllerTest {
   ResultMatcher createdStatus = MockMvcResultMatchers.status().isCreated();
   ResultMatcher deletedStatus = MockMvcResultMatchers.status().isNoContent();
   ResultMatcher notFoundStatus = MockMvcResultMatchers.status().isNotFound();
-  ResultMatcher expectedType = MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8);
+  ResultMatcher expectedType = MockMvcResultMatchers.content()
+      .contentType(MediaType.APPLICATION_JSON_UTF8);
 
   @Before
-  public void setup () {
+  public void setup() {
     DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
     this.mockMvc = builder.build();
+    MockitoAnnotations.initMocks(this);
   }
 
   @Test
-  public void test1_getUser() throws Exception{
-    mockMvc
-        .perform(get("/" + "users/1"))
-        .andExpect(jsonPath("$.name", is("John Smith")))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+  public void test1_getUser() throws Exception {
+    String retType =
+        mockMvc
+            .perform(get("/" + "users/1"))
+            .andExpect(jsonPath("$.name", is("John Smith")))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
+
+//    mockMvc
+//        .perform(get("/" + "users/1"))
+//        .andExpect(jsonPath("$.name", is("John Smith")))
+//        .andExpect(okStatus)
+//        .andExpect(expectedType);
   }
 
   @Test
-  public void test2_queryUsers() throws Exception{
-    mockMvc
-        .perform(get("/" + "users"))
-        .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+  public void test2_queryUsers() throws Exception {
+    String retType =
+
+        mockMvc
+            .perform(get("/" + "users"))
+            .andExpect(jsonPath("$", hasSize(3)))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test3_saveUser() throws Exception{
+  public void test3_saveUser() throws Exception {
     String json = "{\"id\":4,\"name\":\"Sum Bodey\",\"title\":\"Miner\",\"roles\":[\"Miner\",\"Forger\"],\"email\":\"sbodey@gmail.com\",\"password\":\"boimcloi\"}";
 
-    this.mockMvc
-        .perform(post("/" + "users")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
-        .andExpect(jsonPath("$.id", is(4)))
-        .andExpect(createdStatus)
-        .andExpect(expectedType);
+    String retType =
+        this.mockMvc
+            .perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(jsonPath("$.id", is(4)))
+            .andExpect(status().isCreated())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test4_updateUserById() throws Exception{
+  public void test4_updateUserById() throws Exception {
     String json = "{\"id\":1,\"name\":\"Johnny Smith\",\"title\":\"Smithy in Chief\",\"roles\":[\"Supervisor\",\"Smithy\"],\"email\":\"jsmith@gmail.com\",\"password\":\"mcclangers\"}";
 
+    String retType =
     this.mockMvc
-
         .perform(put("/" + "users/1")
             .contentType(MediaType.APPLICATION_JSON)
             .content(json))
         .andExpect(jsonPath("$.name", is("Johnny Smith")))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+        .andExpect(status().isOk())
+        .andReturn()
+        .getResponse()
+        .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test5_deleteUserById() throws Exception{
+  public void test5_deleteUserById() throws Exception {
     mockMvc
         .perform(delete("/" + "users/3"))
         .andExpect(deletedStatus);

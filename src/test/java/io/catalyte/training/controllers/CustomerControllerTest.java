@@ -8,7 +8,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -30,17 +33,20 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//NOTE: test 5 passes in isolation, but for some reason won't when entire test class is run at once.
 public class CustomerControllerTest {
+
   @Autowired
   private WebApplicationContext wac;
 
   private MockMvc mockMvc;
 
-  ResultMatcher okStatus = MockMvcResultMatchers.status().isOk();
-  ResultMatcher createdStatus = MockMvcResultMatchers.status().isCreated();
-  ResultMatcher deletedStatus = MockMvcResultMatchers.status().isNoContent();
-  ResultMatcher notFoundStatus = MockMvcResultMatchers.status().isNotFound();
-  ResultMatcher expectedType = MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8);
+//  ResultMatcher okStatus = MockMvcResultMatchers.status().isOk();
+//  ResultMatcher createdStatus = MockMvcResultMatchers.status().isCreated();
+//  ResultMatcher deletedStatus = MockMvcResultMatchers.status().isNoContent();
+//  ResultMatcher notFoundStatus = MockMvcResultMatchers.status().isNotFound();
+//  ResultMatcher expectedType = MockMvcResultMatchers.content()
+//      .contentType(MediaType.APPLICATION_JSON_UTF8);
 
   @Before
   public void setUp() {
@@ -49,58 +55,92 @@ public class CustomerControllerTest {
   }
 
   @Test
-  public void test1_getCustomer() throws Exception{
-    mockMvc
-        .perform(get("/" + "customers/1"))
-        .andExpect(jsonPath("$.name", is("Jacob Keyes")))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+  public void test1_getCustomer() throws Exception {
+
+    String retType =
+        mockMvc
+            .perform(get("/customers/1"))
+            .andExpect(jsonPath("$.name", is("Jacob Keyes")))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test2_queryCustomers() throws Exception{
-    mockMvc
-        .perform(get("/" + "customers"))
-        .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+  public void test2_queryCustomers() throws Exception {
+
+    String retType =
+        mockMvc
+            .perform(get("/customers"))
+            .andExpect(jsonPath("$", hasSize(3)))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test3_getCustomerByAddress() throws Exception{
+  public void test3_queryCustomersByAddress() throws Exception {
+
+    String retType =
+        mockMvc
+            .perform(get("/customers/address"))
+            .andExpect(jsonPath("$", hasSize(3)))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test4_saveCustomer() throws Exception{
+  public void test4_saveCustomer() throws Exception {
     String json = "{\"id\":4,\"name\":\"Gabriel Reyes\",\"email\":\"greyes@gmail.com\",\"address\":{\"id\":1,\"street\":\"Daniel Rd\",\"city\":\"Shrewsbury\",\"state\":\"MA\",\"zipCode\":\"01545\"}}";
 
-    this.mockMvc
-        .perform(post("/" + "customers")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
-        .andExpect(jsonPath("$.id", is(4)))
-        .andExpect(createdStatus)
-        .andExpect(expectedType);
+    String retType =
+        mockMvc
+            .perform(post("/" + "customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(jsonPath("$.id", is(4)))
+            .andExpect(status().isCreated())
+            .andReturn()
+            .getResponse()
+            .getContentType();
+
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test5_updateCustomerById() throws Exception{
+  // This test passes in isolation, but not when entire test class is run. No idea why.
+  public void test5_updateCustomerById() throws Exception {
     String json = "{\"id\":1,\"name\":\"Miranda Keyes\",\"email\":\"jkeyes@gmail.com\",\"address\":{\"id\":1,\"street\":\"Daniel Rd\",\"city\":\"Shrewsbury\",\"state\":\"MA\",\"zipCode\":\"01545\"}}";
 
-    this.mockMvc
+    String retType =
+        mockMvc
+            .perform(put("/" + "customers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(jsonPath("$.name", is("Miranda Keyes")))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentType();
 
-        .perform(put("/" + "customers/1")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
-        .andExpect(jsonPath("$.name", is("Miranda Keyes")))
-        .andExpect(okStatus)
-        .andExpect(expectedType);
+    Assert.assertEquals("application/json", retType);
   }
 
   @Test
-  public void test6_deleteCustomerById() throws Exception{
+  public void test6_deleteCustomerById() throws Exception {
     mockMvc
         .perform(delete("/" + "customers/3"))
-        .andExpect(deletedStatus);
+        .andExpect(status().isNoContent());
+
   }
 }
