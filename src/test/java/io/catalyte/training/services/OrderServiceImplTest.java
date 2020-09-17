@@ -56,14 +56,6 @@ public class OrderServiceImplTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-//    testProduct1 = new Product("TTNM-00004-ORE", "Ore", "Titanium Ore Grade 04",
-//        "Grade 04 raw titanium ore, primarily used high stress environments.", "Charon Industries",
-//        BigDecimal.valueOf(30.00));
-//    testProduct2 = new Product("TTNM-00023-ALY", "Alloy", "Titanium Alloy Grade 23",
-//        "Grade 23 titanium alloy, superior choice for various rugged fabrications.",
-//        "Charon Industries",
-//        BigDecimal.valueOf(50.00));
-
     testOrder1 = new Order(1L, Date.valueOf("2020-06-22"), new BigDecimal("280.00"));
     testOrder2 = new Order(2L, Date.valueOf("2020-06-22"), new BigDecimal("120.00"));
     testOrder1.setId(1L);

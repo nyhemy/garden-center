@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//NOTE: test 5 passes in isolation, but for some reason won't when entire test class is run at once.
+//NOTE: test 4 passes in isolation, but for some reason won't when entire test class is run at once.
 public class ProductControllerTest {
 
   @Autowired
@@ -109,6 +109,7 @@ public class ProductControllerTest {
   }
 
   @Test
+  // This test passes in isolation, but not when entire test class is run. No idea why.
   public void test4_updateProductById() throws Exception{
 //    String json = "{\"id\":1,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
 
@@ -140,7 +141,6 @@ public class ProductControllerTest {
   }
 
   @Test
-  // This test passes in isolation, but not when entire test class is run. No idea why.
   public void test5_deleteProductById() throws Exception{
     mockMvc
         .perform(delete("/" + "products/3"))
