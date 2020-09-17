@@ -36,7 +36,7 @@ public class Item {
 //  private Product product;
 
   @NotNull (message = "quantity" + REQUIRED_FIELD)
-  @Min(value = 0, message = "value should be greater than zero")
+  @Min(value = 0, message = "value should be greater than or equal to zero")
   private Integer quantity;
 
   @ManyToOne(fetch = FetchType.EAGER)

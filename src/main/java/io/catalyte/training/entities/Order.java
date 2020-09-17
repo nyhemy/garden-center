@@ -36,11 +36,14 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "customer_id")
-  @NotNull(message = "customerId" + REQUIRED_FIELD)
-  @Valid
-  private Customer customerId;
+  @NotNull(message = "customer ID" + REQUIRED_FIELD)
+  private Long customerId;
+
+//  @ManyToOne
+//  @JoinColumn(name = "customer_id")
+//  @NotNull(message = "customerId" + REQUIRED_FIELD)
+//  @Valid
+//  private Customer customerId;
 
   @NotNull(message = "date" + REQUIRED_FIELD)
   @JsonFormat(pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
@@ -59,9 +62,8 @@ public class Order {
   public Order() {
   }
 
-  public Order(
-      @NotNull(message = "customerId"
-          + REQUIRED_FIELD) @Valid Customer customerId,
+  public Order(@NotNull(message = "customer ID"
+      + REQUIRED_FIELD) Long customerId,
       @NotNull(message = "date" + REQUIRED_FIELD) Date date,
       @NotNull(message = "orderTotal"
           + REQUIRED_FIELD) BigDecimal orderTotal) {
@@ -78,11 +80,11 @@ public class Order {
     this.id = id;
   }
 
-  public Customer getCustomerId() {
+  public Long getCustomerId() {
     return customerId;
   }
 
-  public void setCustomerId(Customer customerId) {
+  public void setCustomerId(Long customerId) {
     this.customerId = customerId;
   }
 

@@ -202,7 +202,7 @@ public class DataLoader implements CommandLineRunner {
     itemsSet1.add(new Item(product2.getId(), 5, gcOrder1));
 
     gcOrder1.setId(gcOrder1.getId());
-    gcOrder1.setCustomerId(customer1);
+    gcOrder1.setCustomerId(customer1.getId());
     gcOrder1.setDate(date1);
     gcOrder1.setOrderTotal(new BigDecimal("280.00"));
     gcOrder1.setItems(itemsSet1);
@@ -218,7 +218,7 @@ public class DataLoader implements CommandLineRunner {
     itemsSet2.add(new Item(product3.getId(), 4, gcOrder2));
 
     gcOrder2.setId(gcOrder2.getId());
-    gcOrder2.setCustomerId(customer2);
+    gcOrder2.setCustomerId(customer2.getId());
     gcOrder2.setDate(date2);
     gcOrder2.setOrderTotal(new BigDecimal("120.00"));
     gcOrder2.setItems(itemsSet2);
