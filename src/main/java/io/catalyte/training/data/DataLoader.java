@@ -62,16 +62,9 @@ public class DataLoader implements CommandLineRunner {
 
   private Set<Item> items1 = new HashSet<>();
   private Set<Item> items2 = new HashSet<>();
-  private Set<Item> items3 = new HashSet<>();
 
-  private Order order1;
-  private Order order2;
-  private Order order3;
-  private Order order4;
-
-  private Set<Order> orders1 = new HashSet<>();
-  private Set<Order> orders2 = new HashSet<>();
-  private Set<Order> orders3 = new HashSet<>();
+  private Order order1 = new Order();
+  private Order order2 = new Order();
 
   @Override
   public void run(String... args) throws Exception {
@@ -196,33 +189,29 @@ public class DataLoader implements CommandLineRunner {
     String dateStr1 = "2020-01-21";
     Date date1 = Date.valueOf(dateStr1);
 
-    Order gcOrder1 = new Order();
-    Set<Item> itemsSet1 = new HashSet<>();
-    itemsSet1.add(new Item(product1.getId(), 1, gcOrder1));
-    itemsSet1.add(new Item(product2.getId(), 5, gcOrder1));
+    items1.add(new Item(product1.getId(), 1, order1));
+    items1.add(new Item(product2.getId(), 5, order1));
 
-    gcOrder1.setId(gcOrder1.getId());
-    gcOrder1.setCustomerId(customer1.getId());
-    gcOrder1.setDate(date1);
-    gcOrder1.setOrderTotal(new BigDecimal("280.00"));
-    gcOrder1.setItems(itemsSet1);
+    order1.setId(order1.getId());
+    order1.setCustomerId(customer1.getId());
+    order1.setDate(date1);
+    order1.setOrderTotal(new BigDecimal("280.00"));
+    order1.setItems(items1);
 
-    orderRepository.save(gcOrder1);
+    orderRepository.save(order1);
 
     String dateStr2 = "2020-06-22";
 //    Date date1 = Date.valueOf(dateStr1);
     Date date2 = Date.valueOf(dateStr2);
 
-    Order gcOrder2 = new Order();
-    Set<Item> itemsSet2 = new HashSet<>();
-    itemsSet2.add(new Item(product3.getId(), 4, gcOrder2));
+    items2.add(new Item(product3.getId(), 4, order2));
 
-    gcOrder2.setId(gcOrder2.getId());
-    gcOrder2.setCustomerId(customer2.getId());
-    gcOrder2.setDate(date2);
-    gcOrder2.setOrderTotal(new BigDecimal("120.00"));
-    gcOrder2.setItems(itemsSet2);
+    order2.setId(order2.getId());
+    order2.setCustomerId(customer2.getId());
+    order2.setDate(date2);
+    order2.setOrderTotal(new BigDecimal("120.00"));
+    order2.setItems(items2);
 
-    orderRepository.save(gcOrder2);
+    orderRepository.save(order2);
   }
 }
