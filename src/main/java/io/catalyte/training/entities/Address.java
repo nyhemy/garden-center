@@ -17,7 +17,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-//(contains street, city, VALID US state, and zipcode as XXXXX or XXXXX-XXXX)
+/**
+ * Template for Address entity, and everything it needs to be loaded properly into a database
+ * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Relationships: Customer = OneToOne
+ */
 @Entity
 public class Address {
 

@@ -24,6 +24,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Template for Customer entity, and everything it needs to be loaded properly into a database
+ * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Relationships: Address = OneToOne
+ */
 @Entity
 @Table(name = "Customers")
 public class Customer {

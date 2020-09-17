@@ -27,6 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * Dataloader generates data to be put into database on startup
+ */
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -66,6 +69,12 @@ public class DataLoader implements CommandLineRunner {
   private Order order1 = new Order();
   private Order order2 = new Order();
 
+  /**
+   * Loads data in order based on functions
+   *
+   * @param args
+   * @throws Exception
+   */
   @Override
   public void run(String... args) throws Exception {
     logger.info("Loading data...");

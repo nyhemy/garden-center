@@ -18,6 +18,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Template for Item entity, and everything it needs to be loaded properly into a database
+ * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Relationships: Order = ManyToOne
+ */
 @Entity
 @Table(name = "items")
 public class Item {
@@ -27,7 +32,7 @@ public class Item {
   private Long id;
 
   @NotNull(message = "product" + REQUIRED_FIELD)
-  @ApiModelProperty(notes = "the item's product ID")
+//  @ApiModelProperty(notes = "the item's product ID")
   private Long productId;
 
 //  @OneToOne

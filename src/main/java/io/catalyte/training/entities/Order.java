@@ -28,6 +28,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * Template for Order entity, and everything it needs to be loaded properly into a database
+ * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Relationships: Item = OneToMany
+ */
 @Entity
 @Table(name = "orders")
 public class Order {

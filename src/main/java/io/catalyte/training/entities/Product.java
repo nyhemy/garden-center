@@ -17,6 +17,10 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Template for Product entity, and everything it needs to be loaded properly into a database
+ * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ */
 @Entity
 @Table(name = "products")
 public class Product {
