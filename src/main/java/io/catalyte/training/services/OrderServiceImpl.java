@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 
           for (Item getItem : order.getItems()) {
 
-            if (getItem == listItem){
+            if (getItem == listItem) {
               orderList.add(order);
             }
           }
@@ -126,19 +126,34 @@ public class OrderServiceImpl implements OrderService {
 
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
-    }  }
+    }
+  }
 
   @Override
   // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
     //V1
-    if(order.getOrderTotal().scale() != 2) {
-      throw new BadDataResponse("order total must have two decimal places.");
-    }
     try {
+
+      for (Product product : productRepository.findAll()) {
+        for (Item orderItem : order.getItems()) {
+          if (!productRepository.existsById(orderItem.getProductId())) {
+            throw new ResourceNotFound("no product found with id of " + orderItem.getProductId());
+          }
+        }
+      }
+
+      if (!customerRepository.existsById(order.getCustomerId())) {
+        throw new ResourceNotFound("no customer found with id of " + order.getCustomerId());
+      }
+
+      if (order.getOrderTotal().scale() != 2) {
+        throw new BadDataResponse("order total must have two decimal places.");
+      }
+
       BigDecimal orderTotal = BigDecimal.valueOf(0);
 
-      for(Item item : order.getItems()) {
+      for (Item item : order.getItems()) {
         Product product = productRepository.findById(item.getProductId()).orElse(null);
         if (product != null) {
           BigDecimal price = product.getPrice();
@@ -154,6 +169,7 @@ public class OrderServiceImpl implements OrderService {
         item.setOrder(order);
       }
       return orderRepository.save(order);
+
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
@@ -218,22 +234,34 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public Order updateOrderById(Long id, Order order) {
 
-    if(order.getOrderTotal().scale() != 2) {
-      throw new BadDataResponse("order total must have two decimal places.");
-    }
-
-    if (!order.getId().equals(id))
-    {
-      throw new BadDataResponse("Order ID must match the ID specified in the URL");
-    }
-
     try {
+
+      if (!order.getId().equals(id)) {
+        throw new BadDataResponse("order ID must match the ID specified in the URL");
+      }
+
+      for (Product product : productRepository.findAll()) {
+        for (Item orderItem : order.getItems()) {
+          if (!productRepository.existsById(orderItem.getProductId())) {
+            throw new ResourceNotFound("no product found with id of " + orderItem.getProductId());
+          }
+        }
+      }
+
+      if (!customerRepository.existsById(order.getCustomerId())) {
+        throw new ResourceNotFound("no customer found with id of " + order.getCustomerId());
+      }
+
+      if (order.getOrderTotal().scale() != 2) {
+        throw new BadDataResponse("order total must have two decimal places.");
+      }
+
       Order orderFromDb = orderRepository.findById(id).orElse(null);
 
       if (orderFromDb != null) {
         BigDecimal orderTotal = BigDecimal.valueOf(0);
 
-        for(Item item : order.getItems()) {
+        for (Item item : order.getItems()) {
           Product product = productRepository.findById(item.getProductId()).orElse(null);
           if (product != null) {
             BigDecimal price = product.getPrice();
@@ -252,7 +280,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // if we made it down to this pint, we did not find the vehicle
-    throw new ResourceNotFound("Could not locate an order with the id: " + id);  }
+    throw new ResourceNotFound("Could not locate an order with the id: " + id);
+  }
 
   @Override
   public void deleteOrderById(Long id) {
