@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public Product addProduct(Product product) {
-    if(product.getPrice().scale() != 2) {
+    if (product.getPrice().scale() != 2) {
       throw new BadDataResponse("product price must have two decimal places.");
     }
 
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Product updateProductById(Long id, Product product) {
 
-    if(product.getPrice().scale() != 2) {
+    if (product.getPrice().scale() != 2) {
       throw new BadDataResponse("product price must have two decimal places");
     }
 

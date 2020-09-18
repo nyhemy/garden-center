@@ -76,19 +76,19 @@ public class CustomerServiceImpl implements CustomerService {
     List<Customer> customerList = new ArrayList<>();
 
     try {
-        Example<Address> addressExample = Example.of(address);
-        List<Address> addressList = addressRepository.findAll(addressExample);
+      Example<Address> addressExample = Example.of(address);
+      List<Address> addressList = addressRepository.findAll(addressExample);
 
-        for (Customer customer : allCustomers) {
+      for (Customer customer : allCustomers) {
 
-          for (Address a : addressList) {
+        for (Address a : addressList) {
 
-            if (customer.getAddress() == a){
-              customerList.add(customer);
-            }
+          if (customer.getAddress() == a) {
+            customerList.add(customer);
           }
         }
-        return customerList;
+      }
+      return customerList;
 
     } catch (Exception e) {
       throw new ServiceUnavailable(e);

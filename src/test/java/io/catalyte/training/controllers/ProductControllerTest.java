@@ -51,7 +51,7 @@ public class ProductControllerTest {
   }
 
   @Test
-  public void test1_getProduct() throws Exception{
+  public void test1_getProduct() throws Exception {
     String retType =
         mockMvc
             .perform(get("/" + "products/1"))
@@ -65,7 +65,7 @@ public class ProductControllerTest {
   }
 
   @Test
-  public void test2_queryProducts() throws Exception{
+  public void test2_queryProducts() throws Exception {
     String retType =
 
         mockMvc
@@ -80,7 +80,7 @@ public class ProductControllerTest {
   }
 
   @Test
-  public void test3_saveProduct() throws Exception{
+  public void test3_saveProduct() throws Exception {
     //    String json = "{\"id\":4,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
 
     Product product1 = new Product();
@@ -90,12 +90,13 @@ public class ProductControllerTest {
     product1.setSku("TTNM-00003-ORE");
     product1.setType("Ore");
     product1.setName("Titanium Ore Grade 03");
-    product1.setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
+    product1
+        .setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
     product1.setManufacturer("Charon Industries");
     product1.setPrice(new BigDecimal("30.00"));
 
     String json = mapper.writeValueAsString(product1);
-        String retType =
+    String retType =
         mockMvc
             .perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,7 +111,7 @@ public class ProductControllerTest {
 
   @Test
   // This test passes in isolation, but not when entire test class is run. No idea why.
-  public void test4_updateProductById() throws Exception{
+  public void test4_updateProductById() throws Exception {
 //    String json = "{\"id\":1,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
 
     Product product2 = new Product();
@@ -121,7 +122,8 @@ public class ProductControllerTest {
     product2.setType("Ore");
     product2.setName("Titanium Ore Grade 04");
     product2.setName("Titanium Ore Grade 03");
-    product2.setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
+    product2
+        .setDescription("Grade 03 raw titanium ore, primarily used in high stress environments.");
     product2.setManufacturer("Charon Industries");
     product2.setPrice(new BigDecimal("30.00"));
 
@@ -141,7 +143,7 @@ public class ProductControllerTest {
   }
 
   @Test
-  public void test5_deleteProductById() throws Exception{
+  public void test5_deleteProductById() throws Exception {
     mockMvc
         .perform(delete("/" + "products/3"))
         .andExpect(status().isNoContent());

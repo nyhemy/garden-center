@@ -29,8 +29,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * Template for Order entity, and everything it needs to be loaded properly into a database
- * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Template for Order entity, and everything it needs to be loaded properly into a database Contains
+ * fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
  * Relationships: Item = OneToMany
  */
 @Entity
@@ -59,7 +59,7 @@ public class Order {
   @Valid
   private Set<Item> items = new HashSet<>();
 
-//  @Digits(integer = 999999999, fraction = 2)
+  //  @Digits(integer = 999999999, fraction = 2)
 //  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
   @NotNull(message = "orderTotal" + REQUIRED_FIELD)
   private BigDecimal orderTotal;

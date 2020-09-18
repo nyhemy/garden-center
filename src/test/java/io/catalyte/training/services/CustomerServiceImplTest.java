@@ -61,13 +61,14 @@ public class CustomerServiceImplTest {
     testCustomersList.add(testCustomer1);
     testAddressList.add(testAddress1);
 
-    when(customerRepository.findById(any(Long.class))).thenReturn(Optional.of(testCustomersList.get(0)));
+    when(customerRepository.findById(any(Long.class)))
+        .thenReturn(Optional.of(testCustomersList.get(0)));
     when(customerRepository.save(any(Customer.class))).thenReturn(testCustomersList.get(0));
-    when (customerRepository.findAll()).thenReturn(testCustomersList);
-    when (customerRepository.findAll(any(Example.class))).thenReturn(testCustomersList);
+    when(customerRepository.findAll()).thenReturn(testCustomersList);
+    when(customerRepository.findAll(any(Example.class))).thenReturn(testCustomersList);
 
-    when (addressRepository.findAll()).thenReturn(testAddressList);
-    when (addressRepository.findAll(any(Example.class))).thenReturn(testAddressList);
+    when(addressRepository.findAll()).thenReturn(testAddressList);
+    when(addressRepository.findAll(any(Example.class))).thenReturn(testAddressList);
 
   }
 

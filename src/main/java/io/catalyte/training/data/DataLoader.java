@@ -35,12 +35,18 @@ public class DataLoader implements CommandLineRunner {
 
   private final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
-  @Autowired private UserRepository userRepository;
-  @Autowired private CustomerRepository customerRepository;
-  @Autowired private AddressRepository addressRepository;
-  @Autowired private ProductRepository productRepository;
-  @Autowired private OrderRepository orderRepository;
-  @Autowired private ItemRepository itemRepository;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private CustomerRepository customerRepository;
+  @Autowired
+  private AddressRepository addressRepository;
+  @Autowired
+  private ProductRepository productRepository;
+  @Autowired
+  private OrderRepository orderRepository;
+  @Autowired
+  private ItemRepository itemRepository;
 
   private User user1;
   private User user2;
@@ -93,7 +99,7 @@ public class DataLoader implements CommandLineRunner {
             "jsmith@gmail.com",
             "mcclangers"));
     user2 = userRepository.save(
-        new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN","EMPLOYEE"},
+        new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN", "EMPLOYEE"},
             "jjane@gmail.com",
             "saltycookies"));
     user3 = userRepository.save(
@@ -120,14 +126,17 @@ public class DataLoader implements CommandLineRunner {
 //  }
 
   private void loadAddresses() {
-    address1 = addressRepository.save(new Address("Daniel Rd", "Shrewsbury", "MA", "01545", customer1));
-    address2 = addressRepository.save(new Address("Lynview Dr", "San Jose", "CA", "95135", customer2));
+    address1 = addressRepository
+        .save(new Address("Daniel Rd", "Shrewsbury", "MA", "01545", customer1));
+    address2 = addressRepository
+        .save(new Address("Lynview Dr", "San Jose", "CA", "95135", customer2));
     address3 = addressRepository.save(new Address("Fake St", "Aiea", "HI", "96701", customer3));
   }
 
   private void loadProducts() {
     product1 = productRepository.save(new Product("TTNM-00004-ORE", "Ore", "Titanium Ore Grade 04",
-        "Grade 04 raw titanium ore, primarily used in high stress environments.", "Charon Industries",
+        "Grade 04 raw titanium ore, primarily used in high stress environments.",
+        "Charon Industries",
         BigDecimal.valueOf(30.00)));
     product2 = productRepository
         .save(new Product("TTNM-00023-ALY", "Alloy", "Titanium Alloy Grade 23",

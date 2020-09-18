@@ -26,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
   private final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
-  @Autowired private OrderService orderService;
+  @Autowired
+  private OrderService orderService;
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<Order> getOrderById(@PathVariable Long id) {

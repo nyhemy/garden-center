@@ -74,11 +74,11 @@ public class OrderServiceImplTest {
 
     when(orderRepository.findById(any(Long.class))).thenReturn(Optional.of(testOrderList.get(0)));
     when(orderRepository.save(any(Order.class))).thenReturn(testOrderList.get(0));
-    when (orderRepository.findAll()).thenReturn(testOrderList);
-    when (orderRepository.findAll(any(Example.class))).thenReturn(testOrderList);
+    when(orderRepository.findAll()).thenReturn(testOrderList);
+    when(orderRepository.findAll(any(Example.class))).thenReturn(testOrderList);
 
     when(customerRepository.existsById(any(Long.class))).thenReturn(true);
-    when (itemRepository.findAll(any(Example.class))).thenReturn(testItemsList);
+    when(itemRepository.findAll(any(Example.class))).thenReturn(testItemsList);
 
   }
 

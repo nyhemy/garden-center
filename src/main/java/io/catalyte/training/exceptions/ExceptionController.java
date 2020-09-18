@@ -24,13 +24,13 @@ import static io.catalyte.training.constants.StringConstants.*;
 /**
  * A controller advice allows you to use exactly the same exception handling techniques but apply
  * them across the whole application, not just to an individual controller. You can think of them as
- * an annotation driven interceptor. More info:
- * https://www.baeldung.com/exception-handling-for-rest-with-spring
+ * an annotation driven interceptor. More info: https://www.baeldung.com/exception-handling-for-rest-with-spring
  */
 @ControllerAdvice
 public class ExceptionController {
 
   private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
   /**
    * Catch validation errors triggered by using @Valid on parameters in controllers
    *
@@ -46,7 +46,7 @@ public class ExceptionController {
     String controller = ex.getParameter().getDeclaringClass().getSimpleName();
     ex.getBindingResult().getAllErrors().forEach((error) -> {
       String errorMessage = error.getDefaultMessage();
-      errors.add( errorMessage );
+      errors.add(errorMessage);
     });
 
     ValidationExceptionResponse response =
@@ -90,8 +90,8 @@ public class ExceptionController {
    * Triggered when the ServiceUnavailable exception is thrown.
    *
    * @param ex the ServiceUnavailable exception containing the custom message.
-   * @return the ResponseEntity containing the custom exception and the status code 503
-   *  or 500 depending on the cause of the exception
+   * @return the ResponseEntity containing the custom exception and the status code 503 or 500
+   * depending on the cause of the exception
    */
   @ExceptionHandler(ServiceUnavailable.class)
   protected ResponseEntity<ExceptionResponse> serverError(ServiceUnavailable ex) {
@@ -102,17 +102,16 @@ public class ExceptionController {
     if (ex.getCause() instanceof JDBCException) {
       exceptionMessage = ((JDBCException) ex.getCause()).getSQLException().getMessage();
 
-      response =  new ExceptionResponse(SERVER_ERROR, new Date(), exceptionMessage);
+      response = new ExceptionResponse(SERVER_ERROR, new Date(), exceptionMessage);
       logger.error(exceptionMessage);
       return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
-    }
-    else //it's an unexpected error, throw a 500
+    } else //it's an unexpected error, throw a 500
     {
       exceptionMessage = "Error: " + exceptionMessage
           + "   Class: " + ex.getStackTrace()[0].getClassName()
           + "   Method: " + ex.getStackTrace()[0].getMethodName()
           + "   Line: " + ex.getStackTrace()[0].getLineNumber();
-      response =  new ExceptionResponse(UNEXPECTED_ERROR, new Date(), exceptionMessage);
+      response = new ExceptionResponse(UNEXPECTED_ERROR, new Date(), exceptionMessage);
       logger.error(exceptionMessage);
       return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -120,7 +119,6 @@ public class ExceptionController {
   }
 
   /**
-   *
    * @param exception - The Conflict exception containing the custom message.
    * @return the ResponseEntity containing the custom exception and the status code 409
    */

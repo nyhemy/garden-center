@@ -44,7 +44,7 @@ public class Product {
   @NotBlank(message = "manufacturer" + REQUIRED_FIELD)
   private String manufacturer;
 
-//  @Digits(integer = 999999999, fraction = 2)
+  //  @Digits(integer = 999999999, fraction = 2)
 //  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
   @NotNull(message = "price" + REQUIRED_FIELD)
   private BigDecimal price;
@@ -168,7 +168,7 @@ public class Product {
   }
 
   @JsonIgnore
-  public boolean isEmpty(){
+  public boolean isEmpty() {
     return Objects.isNull(id) &&
         Objects.isNull(sku) &&
         Objects.isNull(type) &&

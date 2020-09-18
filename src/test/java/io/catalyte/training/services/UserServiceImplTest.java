@@ -47,8 +47,8 @@ public class UserServiceImplTest {
 
     when(userRepository.findById(any(Long.class))).thenReturn(Optional.of(testList.get(0)));
     when(userRepository.save(any(User.class))).thenReturn(testList.get(0));
-    when (userRepository.findAll()).thenReturn(testList);
-    when (userRepository.findAll(any(Example.class))).thenReturn(testList);
+    when(userRepository.findAll()).thenReturn(testList);
+    when(userRepository.findAll(any(Example.class))).thenReturn(testList);
   }
 
   @Test

@@ -19,8 +19,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Template for Item entity, and everything it needs to be loaded properly into a database
- * Contains fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
+ * Template for Item entity, and everything it needs to be loaded properly into a database Contains
+ * fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
  * Relationships: Order = ManyToOne
  */
 @Entity
@@ -40,12 +40,12 @@ public class Item {
 //  @Valid
 //  private Product product;
 
-  @NotNull (message = "quantity" + REQUIRED_FIELD)
+  @NotNull(message = "quantity" + REQUIRED_FIELD)
   @Min(value = 0, message = "value should be greater than or equal to zero")
   private Integer quantity;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name="order_id")
+  @JoinColumn(name = "order_id")
   @JsonIgnore
   private Order order;
 
