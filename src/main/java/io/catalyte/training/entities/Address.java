@@ -4,18 +4,13 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * Template for Address entity, and everything it needs to be loaded properly into a database
@@ -41,17 +36,9 @@ public class Address {
   @NotBlank(message = "zipcode" + REQUIRED_FIELD)
   private String zipCode;
 
-//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//  @JsonIgnore
-//  private Customer customer;
-
   @OneToOne(fetch = FetchType.EAGER)
   @JsonIgnore
   private Customer customer;
-
-//  @OneToMany(mappedBy = "address")
-//  @JsonIgnore
-//  private final Set<Customers> customers = new HashSet<>();
 
   public Address() {
   }

@@ -3,7 +3,6 @@ package io.catalyte.training.entities;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -34,11 +31,6 @@ public class Item {
   @NotNull(message = "product" + REQUIRED_FIELD)
 //  @ApiModelProperty(notes = "the item's product ID")
   private Long productId;
-
-//  @OneToOne
-//  @NotNull (message = "product" + REQUIRED_FIELD)
-//  @Valid
-//  private Product product;
 
   @NotNull(message = "quantity" + REQUIRED_FIELD)
   @Min(value = 0, message = "value should be greater than or equal to zero")

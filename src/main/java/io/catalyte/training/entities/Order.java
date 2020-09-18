@@ -6,25 +6,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.OptBoolean;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,12 +37,6 @@ public class Order {
   @NotNull(message = "customer ID" + REQUIRED_FIELD)
   private Long customerId;
 
-//  @ManyToOne
-//  @JoinColumn(name = "customer_id")
-//  @NotNull(message = "customerId" + REQUIRED_FIELD)
-//  @Valid
-//  private Customer customerId;
-
   @NotNull(message = "date" + REQUIRED_FIELD)
   @JsonFormat(pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -59,8 +46,6 @@ public class Order {
   @Valid
   private Set<Item> items = new HashSet<>();
 
-  //  @Digits(integer = 999999999, fraction = 2)
-//  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
   @NotNull(message = "orderTotal" + REQUIRED_FIELD)
   private BigDecimal orderTotal;
 

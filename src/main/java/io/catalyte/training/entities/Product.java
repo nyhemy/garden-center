@@ -5,15 +5,11 @@ import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -44,15 +40,8 @@ public class Product {
   @NotBlank(message = "manufacturer" + REQUIRED_FIELD)
   private String manufacturer;
 
-  //  @Digits(integer = 999999999, fraction = 2)
-//  @Digits(integer = 10, fraction = 2, message = "orderTotal" + REQUIRED_FIELD)
   @NotNull(message = "price" + REQUIRED_FIELD)
   private BigDecimal price;
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JsonIgnore
-//  @Valid
-//  private Item item;
 
   public Product() {
   }

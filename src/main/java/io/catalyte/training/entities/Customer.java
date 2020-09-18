@@ -5,24 +5,17 @@ import static io.catalyte.training.constants.StringConstants.INVALID_EMAIL;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 /**
  * Template for Customer entity, and everything it needs to be loaded properly into a database
@@ -44,23 +37,10 @@ public class Customer {
   @Email(message = "email" + INVALID_EMAIL)
   private String email;
 
-//  @OneToOne
-//  @NotNull(message = "address" + REQUIRED_FIELD)
-//  private Address address;
-
   @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
   @Valid
 //  @ApiModelProperty(notes = "the customer address") //This is used for swagger
   private Address address;
-
-//  @OneToMany(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "customer_id", referencedColumnName = "id")
-//  @JsonIgnore
-//  private Set<Order> orders = new HashSet<>();
-
-//  @OneToMany(mappedBy = "address")
-//  @JsonIgnore
-//  private final Set<Customers> customers = new HashSet<>();
 
   public Customer() {
   }

@@ -79,43 +79,6 @@ public class OrderServiceImpl implements OrderService {
     }
   }
 
-//  @Override
-//  public List<Order> queryOrdersByItem(Item item) {
-//    // takes in an item field
-//    // returns an answer based on that field
-//    List<Order> allOrders = orderRepository.findAll();
-//
-//    try {
-//      if (item.isEmpty()) {
-//        return allOrders;
-//
-//      } else {
-//        Example<Item> itemExample = Example.of(item);
-//
-//        List<Item> itemList = itemRepository.findAll(itemExample);
-//        List<Order> orderList = new ArrayList<>();
-//
-//        for (Order order : allOrders) {
-//
-//          for (Item i : itemList) {
-//
-//            for (Item i2 : order.getItems()) {
-//
-//              if (i2 == i) {
-//                orderList.add(order);
-//              }
-//            }
-//          }
-//        }
-//
-//
-//        return orderList;
-//      }
-//    } catch (Exception e) {
-//      throw new ServiceUnavailable(e);
-//    }
-//  }
-
   /**
    * Queries Orders through nested Item entity's fields
    *
@@ -159,7 +122,6 @@ public class OrderServiceImpl implements OrderService {
    * @return added Order
    */
   @Override
-  // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
     //V1
 
@@ -202,62 +164,6 @@ public class OrderServiceImpl implements OrderService {
     } catch (Exception e) {
       throw new ServiceUnavailable(e);
     }
-
-    //V2Test
-//    boolean validProductList = true;
-//    boolean validCustomerId = true;
-//
-//    // get distinct list of productIds associated with the order
-//    Long[] productIds = order.getItems().stream()
-//        .map(Item::getProductId)
-//        .toArray(Long[]::new);
-//
-//    // loop through Product Ids and make sure each is valid
-//    for (Long id : productIds) {
-//      try {
-//
-//        //if the product doesn't exist, set the flag
-//        if (!productRepository.existsById(id)) {
-//          validProductList = false;
-//          break;
-//        }
-//      } catch (Exception e) {
-//        throw new ServiceUnavailable(e);
-//      }
-//    }
-//
-//    // throw error if one or more products is not valid
-//    if (!validProductList) {
-//      throw new ResourceNotFound("could not locate product with that id");
-//    }
-//
-//    try {
-//      validCustomerId = customerRepository.existsById(order.getCustomerId());
-//    } catch (Exception e) {
-//      throw new ServiceUnavailable(e);
-//    }
-//
-//    // throw error if customer is not valid
-//    if (!validCustomerId) {
-//      throw new ResourceNotFound("no customer found with that id");
-//    }
-//
-//    // check if order total has exactly 2 decimal places
-//    if (order.getOrderTotal().scale() != 2) {
-//      throw new BadDataResponse("orderTotal must have exactly two decimal places");
-//    }
-//
-//    // set order for every item in the order
-//    for (Item item : order.getItems()) {
-//      item.setOrder(order);
-//    }
-//
-//    // save the new order
-//    try {
-//      return orderRepository.save(order);
-//    } catch (Exception e) {
-//      throw new ServiceUnavailable(e);
-//    }
   }
 
   /**

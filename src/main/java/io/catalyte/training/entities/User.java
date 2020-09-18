@@ -4,7 +4,6 @@ import static io.catalyte.training.constants.StringConstants.INVALID_EMAIL;
 import static io.catalyte.training.constants.StringConstants.REQUIRED_FIELD;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;

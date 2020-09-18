@@ -111,14 +111,6 @@ public class UserServiceImpl implements UserService {
       throw new BadDataResponse("User ID must match the ID specified in the URL");
     }
 
-//    for (String r : user.getRoles()) {
-//      for (String role : validRoles) {
-//        if (!r.equals(role)) {
-//        }
-//      }
-//      throw new BadDataResponse("Invalid role");
-//    }
-
     for (String role : user.getRoles()) {
       if (!ValidRoles.validRolesList.contains(role)) {
         throw new BadDataResponse("Invalid role");
