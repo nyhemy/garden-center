@@ -121,7 +121,7 @@ public class CustomerServiceImpl implements CustomerService {
   /**
    * Adds a new Customer to the database
    *
-   * Note: Be sure to delete all ids, from both address and customer, before posting
+   * Note: Be sure to delete all ids, from both address and customer, before posting in Postman
    *
    * @param customer is the Customer to be added
    * @return added Customer
@@ -158,7 +158,7 @@ public class CustomerServiceImpl implements CustomerService {
    * Updates a customer based off a provided id
    *
    * @param id is used to lookup the Customer to be updated
-   * @param customer updated Customer information
+   * @param customer is the updated Customer information
    * @return updated Customer
    */
   @Override
@@ -203,7 +203,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   /**
-   * Deleted a Customer based off of provided id
+   * Deletes a Customer based off of provided id
    *
    * @param id is used to find which Customer to delete
    */

@@ -1,7 +1,5 @@
 package io.catalyte.training.services;
 
-import io.catalyte.training.entities.Address;
-import io.catalyte.training.entities.Customer;
 import io.catalyte.training.entities.Item;
 import io.catalyte.training.entities.Order;
 import io.catalyte.training.entities.Product;
@@ -15,13 +13,16 @@ import io.catalyte.training.repositories.ProductRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+/**
+ * service for Order
+ * implements OrderService interface
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -36,6 +37,12 @@ public class OrderServiceImpl implements OrderService {
   @Autowired
   private CustomerRepository customerRepository;
 
+  /**
+   * Get Order by id
+   *
+   * @param id is the id the will be used to retrieve an Order
+   * @return Order with provided id
+   */
   @Override
   public Order getOrder(Long id) {
     try {
@@ -50,6 +57,14 @@ public class OrderServiceImpl implements OrderService {
     throw new ResourceNotFound("Could not locate a order with the id: " + id);
   }
 
+  /**
+   * Queries all Orders and filters through an optional query
+   * Will return all Orders if no query is provided
+   * Query does not work for any fields in nested Item entity
+   *
+   * @param order is the optional Query that will be used to filter Orders
+   * @return a list of Orders
+   */
   @Override
   public List<Order> queryOrders(Order order) {
     try {
@@ -101,6 +116,12 @@ public class OrderServiceImpl implements OrderService {
 //    }
 //  }
 
+  /**
+   * Queries Orders through nested Item entity's fields
+   *
+   * @param item is the object that will provide the query to be made for Items
+   * @return a list of Orders
+   */
   @Override
   public List<Order> queryOrdersByItem(Item item) {
     List<Order> allOrders = orderRepository.findAll();
@@ -129,6 +150,14 @@ public class OrderServiceImpl implements OrderService {
     }
   }
 
+  /**
+   * Adds a new Order to the database
+   *
+   * Note: Be sure to delete all ids, from both Item and Order, before posting in Postman
+   *
+   * @param order is the Order to be added
+   * @return added Order
+   */
   @Override
   // remember when adding to postman to delete ids of order and items
   public Order addOrder(Order order) {
@@ -231,6 +260,13 @@ public class OrderServiceImpl implements OrderService {
 //    }
   }
 
+  /**
+   * Updates an Order based off a provided id
+   *
+   * @param id is used to lookup the Order to be updated
+   * @param order is the updated Order information
+   * @return updated Order
+   */
   @Override
   public Order updateOrderById(Long id, Order order) {
 
@@ -253,6 +289,11 @@ public class OrderServiceImpl implements OrderService {
     throw new ResourceNotFound("Could not locate an order with the id: " + id);
   }
 
+  /**
+   * Deletes an Order based off of provided id
+   *
+   * @param id is used to find which Order to delete
+   */
   @Override
   public void deleteOrderById(Long id) {
     try {

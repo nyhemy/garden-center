@@ -1,13 +1,11 @@
 package io.catalyte.training.services;
 
 import io.catalyte.training.entities.Product;
-import io.catalyte.training.entities.User;
 import io.catalyte.training.exceptions.BadDataResponse;
 import io.catalyte.training.exceptions.Conflict;
 import io.catalyte.training.exceptions.ResourceNotFound;
 import io.catalyte.training.exceptions.ServiceUnavailable;
 import io.catalyte.training.repositories.ProductRepository;
-import io.catalyte.training.repositories.UserRepository;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+/**
+ * service for Product
+ * implements ProductService interface
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -23,6 +25,12 @@ public class ProductServiceImpl implements ProductService {
   @Autowired
   private ProductRepository productRepository;
 
+  /**
+   * Get Product by id
+   *
+   * @param id is the id the will be used to retrieve a Product
+   * @return Product with provided id
+   */
   @Override
   public Product getProductById(Long id) {
     try {
@@ -37,6 +45,13 @@ public class ProductServiceImpl implements ProductService {
     throw new ResourceNotFound("Could not locate a product with the id: " + id);
   }
 
+  /**
+   * Queries all Products and filters through an optional query
+   * Will return all Products if no query is provided
+   *
+   * @param product is the optional Query that will be used to filter Products
+   * @return a list of Products
+   */
   @Override
   public List<Product> queryProducts(Product product) {
     try {
@@ -51,6 +66,14 @@ public class ProductServiceImpl implements ProductService {
     }
   }
 
+  /**
+   * Adds a new Product to the database
+   *
+   * Note: Be sure to delete Product id before posting to Postman
+   *
+   * @param product is the Product to be added
+   * @return added Product
+   */
   @Override
   public Product addProduct(Product product) {
     if (product.getPrice().scale() != 2) {
@@ -70,6 +93,13 @@ public class ProductServiceImpl implements ProductService {
     }
   }
 
+  /**
+   * Updates a Product based off a provided id
+   *
+   * @param id is used to lookup the Product to be updated
+   * @param product is the updated Product information
+   * @return updated Product
+   */
   @Override
   public Product updateProductById(Long id, Product product) {
 
@@ -102,6 +132,11 @@ public class ProductServiceImpl implements ProductService {
     throw new ResourceNotFound("Could not locate a product with the id: " + id);
   }
 
+  /**
+   * Deletes a Product based off of provided id
+   *
+   * @param id is used to find which Product to delete
+   */
   @Override
   public void deleteProductById(Long id) {
     try {
