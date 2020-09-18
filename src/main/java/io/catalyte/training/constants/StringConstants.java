@@ -1,5 +1,8 @@
 package io.catalyte.training.constants;
 
+/**
+ * constants used in various exceptions are held here
+ */
 public class StringConstants {
 
   public static final String NOT_FOUND = "Not Found";
@@ -8,8 +11,6 @@ public class StringConstants {
   public static final String UNEXPECTED_ERROR = "Unexpected Server Error";
   public static final String VALIDATION_ERROR = "Validation Error";
   public static final String REQUIRED_FIELD = " is a required field";
-  public static final String INVALID_POSITIVE = "A positive value is required for this field";
-  public static final String ID_NOT_FOUND = "You attempted an operation on an id that does not exist in the database";
   public static final String INVALID_EMAIL = " should be a valid email address";
   public static final String INPUT_CONFLICT = "Input is conflicting with already existing data";
 
