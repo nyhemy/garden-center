@@ -32,11 +32,11 @@ public class UserServiceImplTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    testUser1 = new User("John Smith", "Smithy in Chief", new String[]{"Supervisor", "Smithy"},
+    testUser1 = new User("John Smith", "Smithy in Chief", new String[]{"ADMIN"},
         "jsmith@gmail.com",
         "mcclangers");
 
-    testUser2 = new User("Jinky Jane", "Miner in Chief", new String[]{"Supervisor", "Miner"},
+    testUser2 = new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN"},
         "jjane@gmail.com",
         "saltycookies");
 
