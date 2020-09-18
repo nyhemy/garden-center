@@ -2,7 +2,6 @@ package io.catalyte.training.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -81,8 +80,6 @@ public class ProductControllerTest {
 
   @Test
   public void test3_saveProduct() throws Exception {
-    //    String json = "{\"id\":4,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
-
     Product product1 = new Product();
     ObjectMapper mapper = new ObjectMapper();
 
@@ -112,8 +109,6 @@ public class ProductControllerTest {
   @Test
   // This test passes in isolation, but not when entire test class is run. No idea why.
   public void test4_updateProductById() throws Exception {
-//    String json = "{\"id\":1,\"sku\":\"TTNM-00000-ORE\",\"type\":\"Ore\",\"name\":\"Titanium Ore Grade 04\",\"description\":\"Grade 04 raw titanium ore, primarily used in high stress environments.\",\"manufacturer\":\"Charon Industries\",\"price\":30}";
-
     Product product2 = new Product();
     ObjectMapper mapper = new ObjectMapper();
 

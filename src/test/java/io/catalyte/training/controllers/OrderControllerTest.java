@@ -2,7 +2,6 @@ package io.catalyte.training.controllers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,17 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.catalyte.training.entities.Item;
-import io.catalyte.training.entities.Order;
-import io.catalyte.training.entities.Product;
 import io.catalyte.training.repositories.CustomerRepository;
 import io.catalyte.training.repositories.ItemRepository;
 import io.catalyte.training.repositories.OrderRepository;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -108,31 +99,6 @@ public class OrderControllerTest {
 
   @Test
   public void test4_saveOrder() throws Exception {
-//    Order order = new Order();
-//
-//    Set<Item> items = new HashSet<>();
-//    items.add(new Item(1L, 1, order));
-//
-//    ObjectMapper mapper = new ObjectMapper();
-//
-//    order.setId(3L);
-//    order.setCustomerId(3L);
-//    order.setDate(Date.valueOf("2020-04-06"));
-//    order.setItems(items);
-//    order.setOrderTotal(new BigDecimal("280"));
-//
-//    String json = mapper.writeValueAsString(order);
-//    String retType =
-//        mockMvc
-//            .perform(post("/orders")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(json))
-//            .andExpect(jsonPath("$.id", is(3)))
-//            .andReturn()
-//            .getResponse()
-//            .getContentType();
-//
-//    assertEquals("application/json", retType);
     String ret =
         mockMvc
             .perform(get("/orders/1"))
