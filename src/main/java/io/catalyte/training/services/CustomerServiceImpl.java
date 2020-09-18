@@ -18,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+/**
+ * service for Customer
+ * implements CustomerService interface
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -36,6 +40,12 @@ public class CustomerServiceImpl implements CustomerService {
   String zipCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
   Pattern zipCodePattern = Pattern.compile(zipCodeRegex);
 
+  /**
+   * Get Customer by id
+   *
+   * @param id is the id the will be used to retrieve a Customer
+   * @return Customer with provided id
+   */
   @Override
   public Customer getCustomerById(Long id) {
     try {
@@ -50,10 +60,17 @@ public class CustomerServiceImpl implements CustomerService {
     throw new ResourceNotFound("Could not locate a customer with the id: " + id);
   }
 
-  /*
-  Note: One can still query Customer via Address using queryCustomer, the url would look like:
-  "http://localhost:8080/customers?address.city=San Jose". However, this is considered bad practice.
-  */
+  /**
+   * Queries all Customers and filters through an optional query
+   * Will return all Customers if no query is provided
+   * Query does not work for any fields in nested Address entity
+   *
+   * Note: One can still query Customer via Address using queryCustomer, the url would look like:
+   * "http://localhost:8080/customers?address.city=San Jose"
+   *
+   * @param customer is the optional Query that will be used to filter Customers
+   * @return a list of Customers
+   */
   @Override
   public List<Customer> queryCustomers(Customer customer) {
     try {
@@ -68,6 +85,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
   }
 
+  /**
+   * Queries Customers through nested Address entity's fields
+   *
+   * @param address is the object that will provide the query to be made for Addresses
+   * @return a list of Customers
+   */
   @Override
   public List<Customer> queryCustomersByAddress(Address address) {
     // takes in an address field
@@ -95,8 +118,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
   }
 
+  /**
+   * Adds a new Customer to the database
+   *
+   * Note: Be sure to delete all ids, from both address and customer, before posting
+   *
+   * @param customer is the Customer to be added
+   * @return added Customer
+   */
   @Override
-  //be sure to delete all ids, from both address and customer, before posting
   public Customer addCustomer(Customer customer) {
 
     Matcher matcher = zipCodePattern.matcher(customer.getAddress().getZipCode());
@@ -124,6 +154,13 @@ public class CustomerServiceImpl implements CustomerService {
     throw new BadDataResponse("Invalid state");
   }
 
+  /**
+   * Updates a customer based off a provided id
+   *
+   * @param id is used to lookup the Customer to be updated
+   * @param customer updated Customer information
+   * @return updated Customer
+   */
   @Override
   public Customer updateCustomerById(Long id, Customer customer) {
     if (!customer.getId().equals(id)) {
@@ -165,6 +202,11 @@ public class CustomerServiceImpl implements CustomerService {
     throw new BadDataResponse("Invalid state");
   }
 
+  /**
+   * Deleted a Customer based off of provided id
+   *
+   * @param id is used to find which Customer to delete
+   */
   @Override
   public void deleteCustomerById(Long id) {
     try {

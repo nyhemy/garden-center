@@ -4,6 +4,9 @@ import io.catalyte.training.entities.Item;
 import io.catalyte.training.entities.Order;
 import java.util.List;
 
+/**
+ * interface for orderServiceImpl with crud methods for Order
+ */
 public interface OrderService {
 
   Order getOrder(Long id);

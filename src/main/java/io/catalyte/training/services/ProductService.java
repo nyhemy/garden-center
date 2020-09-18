@@ -4,6 +4,9 @@ import io.catalyte.training.entities.Product;
 import io.catalyte.training.entities.User;
 import java.util.List;
 
+/**
+ * interface for productServiceImpl with crud methods for Product
+ */
 public interface ProductService {
 
   Product getProductById(Long id);

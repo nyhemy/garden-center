@@ -4,6 +4,9 @@ import io.catalyte.training.entities.Address;
 import io.catalyte.training.entities.Customer;
 import java.util.List;
 
+/**
+ * interface for customerServiceImpl with crud methods for Customer
+ */
 public interface CustomerService {
 
   Customer getCustomerById(Long id);
