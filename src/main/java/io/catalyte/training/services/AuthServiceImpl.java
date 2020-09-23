@@ -4,6 +4,7 @@ import io.catalyte.training.entities.User;
 import io.catalyte.training.exceptions.BadRequest;
 import io.catalyte.training.entities.Token;
 import io.catalyte.training.entities.UserInput;
+import io.catalyte.training.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -13,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class AuthServiceImpl implements AuthService {
 
   @Autowired
-  private UserService userService;
+  private UserRepository userRepository;
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -29,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     String email = userInput.getEmail();
     String password = userInput.getPassword();
 
-    User user = userService.findByEmail(email);
+    User user = userRepository.findByEmail(email);
 
     String userPassword = user.getPassword();
 
