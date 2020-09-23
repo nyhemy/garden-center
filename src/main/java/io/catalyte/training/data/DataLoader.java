@@ -44,8 +44,8 @@ public class DataLoader implements CommandLineRunner {
   private OrderRepository orderRepository;
   @Autowired
   private ItemRepository itemRepository;
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+//  @Autowired
+//  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private User user1;
   private User user2;
@@ -87,20 +87,21 @@ public class DataLoader implements CommandLineRunner {
   }
 
   private void loadUsers() {
-    String encodedPass = bCryptPasswordEncoder.encode("password");
+//    String encodedPass = bCryptPasswordEncoder.encode("password");
+
     // old passwords: user1 = "mcclangers", user2 = "saltycookies", user3 = "diggydiggyhole"
 
     user1 = userRepository.save(
         new User("John Smith", "Smithy in Chief", new String[]{"ADMIN"},
             "jsmith@gmail.com",
-            encodedPass));
+            /*encodedPass*/"mcclangers"));
     user2 = userRepository.save(
         new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN", "EMPLOYEE"},
             "jjane@gmail.com",
-            encodedPass));
+            /*encodedPass*/"saltycookies"));
     user3 = userRepository.save(
         new User("Fredo Mann", "Miner", new String[]{"EMPLOYEE"}, "fmann@gmail.com",
-            encodedPass));
+            /*encodedPass*/"diggydiggyhole"));
   }
 
   private void loadCustomers() {

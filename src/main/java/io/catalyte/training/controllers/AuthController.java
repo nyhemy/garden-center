@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/authenticate")
+//@RestController
+//@RequestMapping("/authenticate")
 public class AuthController {
 
   @Autowired
