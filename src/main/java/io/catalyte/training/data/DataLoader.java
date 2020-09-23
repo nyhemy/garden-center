@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,6 +44,8 @@ public class DataLoader implements CommandLineRunner {
   private OrderRepository orderRepository;
   @Autowired
   private ItemRepository itemRepository;
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private User user1;
   private User user2;
@@ -84,17 +87,20 @@ public class DataLoader implements CommandLineRunner {
   }
 
   private void loadUsers() {
+    String encodedPass = bCryptPasswordEncoder.encode("password");
+    // old passwords: user1 = "mcclangers", user2 = "saltycookies", user3 = "diggydiggyhole"
+
     user1 = userRepository.save(
         new User("John Smith", "Smithy in Chief", new String[]{"ADMIN"},
             "jsmith@gmail.com",
-            "mcclangers"));
+            encodedPass));
     user2 = userRepository.save(
         new User("Jinky Jane", "Miner in Chief", new String[]{"ADMIN", "EMPLOYEE"},
             "jjane@gmail.com",
-            "saltycookies"));
+            encodedPass));
     user3 = userRepository.save(
         new User("Fredo Mann", "Miner", new String[]{"EMPLOYEE"}, "fmann@gmail.com",
-            "diggydiggyhole"));
+            encodedPass));
   }
 
   private void loadCustomers() {

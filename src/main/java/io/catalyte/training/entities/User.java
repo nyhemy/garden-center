@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
  * fields, constructors, getters/setters, toString(), equals(), hashCode(), and isEmpty()
  */
 @Entity
-@Table(name = "Tables")
+@Table(name = "users")
 public class User {
 
   @Id

@@ -131,5 +131,12 @@ public class ExceptionController {
     return new ResponseEntity<>(response, HttpStatus.CONFLICT);
   }
 
+  @ExceptionHandler(BadRequest.class)
+  protected ResponseEntity<ExceptionResponse> badRequest(BadRequest exception) {
+    ExceptionResponse response = new ExceptionResponse(BAD_REQUEST, new Date(),
+        exception.getMessage());
+    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
 }
 

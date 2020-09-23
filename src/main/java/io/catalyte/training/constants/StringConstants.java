@@ -13,5 +13,7 @@ public class StringConstants {
   public static final String REQUIRED_FIELD = " is a required field";
   public static final String INVALID_EMAIL = " should be a valid email address";
   public static final String INPUT_CONFLICT = "Input is conflicting with already existing data";
+  public static final String BAD_REQUEST = "Bad input";
+  public static final String SECRET_KEY = "totallyasecret";
 
 }
