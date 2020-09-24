@@ -16,6 +16,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  // supposedly excludes the /authenticate from having to be authenticated so you can login
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().anyRequest()
